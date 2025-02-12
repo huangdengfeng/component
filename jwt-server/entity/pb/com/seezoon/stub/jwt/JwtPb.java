@@ -1914,16 +1914,28 @@ java.lang.String defaultValue) {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      * @return Whether the jwtInfo field is set.
      */
     boolean hasJwtInfo();
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      * @return The jwtInfo.
      */
     com.seezoon.stub.jwt.JwtPb.JwtInfo getJwtInfo();
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      */
     com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder getJwtInfoOrBuilder();
@@ -1971,6 +1983,10 @@ java.lang.String defaultValue) {
     public static final int JWTINFO_FIELD_NUMBER = 1;
     private com.seezoon.stub.jwt.JwtPb.JwtInfo jwtInfo_;
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      * @return Whether the jwtInfo field is set.
      */
@@ -1979,6 +1995,10 @@ java.lang.String defaultValue) {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      * @return The jwtInfo.
      */
@@ -1987,6 +2007,10 @@ java.lang.String defaultValue) {
       return jwtInfo_ == null ? com.seezoon.stub.jwt.JwtPb.JwtInfo.getDefaultInstance() : jwtInfo_;
     }
     /**
+     * <pre>
+     * 不能为null
+     * </pre>
+     *
      * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
      */
     @java.lang.Override
@@ -2349,6 +2373,10 @@ java.lang.String defaultValue) {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.seezoon.stub.jwt.JwtPb.JwtInfo, com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder, com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder> jwtInfoBuilder_;
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        * @return Whether the jwtInfo field is set.
        */
@@ -2356,6 +2384,10 @@ java.lang.String defaultValue) {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        * @return The jwtInfo.
        */
@@ -2367,6 +2399,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public Builder setJwtInfo(com.seezoon.stub.jwt.JwtPb.JwtInfo value) {
@@ -2383,6 +2419,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public Builder setJwtInfo(
@@ -2397,6 +2437,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public Builder mergeJwtInfo(com.seezoon.stub.jwt.JwtPb.JwtInfo value) {
@@ -2418,6 +2462,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public Builder clearJwtInfo() {
@@ -2431,6 +2479,10 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder getJwtInfoBuilder() {
@@ -2439,6 +2491,10 @@ java.lang.String defaultValue) {
         return getJwtInfoFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       public com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder getJwtInfoOrBuilder() {
@@ -2450,6 +2506,10 @@ java.lang.String defaultValue) {
         }
       }
       /**
+       * <pre>
+       * 不能为null
+       * </pre>
+       *
        * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -3876,17 +3936,35 @@ java.lang.String defaultValue) {
         getErrMsgBytes();
 
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <code>bool expired = 3;</code>
+     * @return The expired.
+     */
+    boolean getExpired();
+
+    /**
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      * @return Whether the jwtInfo field is set.
      */
     boolean hasJwtInfo();
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      * @return The jwtInfo.
      */
     com.seezoon.stub.jwt.JwtPb.JwtInfo getJwtInfo();
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      */
     com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder getJwtInfoOrBuilder();
   }
@@ -3977,10 +4055,25 @@ java.lang.String defaultValue) {
       }
     }
 
-    public static final int JWTINFO_FIELD_NUMBER = 3;
+    public static final int EXPIRED_FIELD_NUMBER = 3;
+    private boolean expired_ = false;
+    /**
+     * <code>bool expired = 3;</code>
+     * @return The expired.
+     */
+    @java.lang.Override
+    public boolean getExpired() {
+      return expired_;
+    }
+
+    public static final int JWTINFO_FIELD_NUMBER = 4;
     private com.seezoon.stub.jwt.JwtPb.JwtInfo jwtInfo_;
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      * @return Whether the jwtInfo field is set.
      */
     @java.lang.Override
@@ -3988,7 +4081,11 @@ java.lang.String defaultValue) {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      * @return The jwtInfo.
      */
     @java.lang.Override
@@ -3996,7 +4093,11 @@ java.lang.String defaultValue) {
       return jwtInfo_ == null ? com.seezoon.stub.jwt.JwtPb.JwtInfo.getDefaultInstance() : jwtInfo_;
     }
     /**
-     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+     * <pre>
+     * 过期为空
+     * </pre>
+     *
+     * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
      */
     @java.lang.Override
     public com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder getJwtInfoOrBuilder() {
@@ -4023,8 +4124,11 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(errMsg_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, errMsg_);
       }
+      if (expired_ != false) {
+        output.writeBool(3, expired_);
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeMessage(3, getJwtInfo());
+        output.writeMessage(4, getJwtInfo());
       }
       getUnknownFields().writeTo(output);
     }
@@ -4042,9 +4146,13 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(errMsg_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, errMsg_);
       }
+      if (expired_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, expired_);
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getJwtInfo());
+          .computeMessageSize(4, getJwtInfo());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4065,6 +4173,8 @@ java.lang.String defaultValue) {
           != other.getErrCode()) return false;
       if (!getErrMsg()
           .equals(other.getErrMsg())) return false;
+      if (getExpired()
+          != other.getExpired()) return false;
       if (hasJwtInfo() != other.hasJwtInfo()) return false;
       if (hasJwtInfo()) {
         if (!getJwtInfo()
@@ -4085,6 +4195,9 @@ java.lang.String defaultValue) {
       hash = (53 * hash) + getErrCode();
       hash = (37 * hash) + ERR_MSG_FIELD_NUMBER;
       hash = (53 * hash) + getErrMsg().hashCode();
+      hash = (37 * hash) + EXPIRED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getExpired());
       if (hasJwtInfo()) {
         hash = (37 * hash) + JWTINFO_FIELD_NUMBER;
         hash = (53 * hash) + getJwtInfo().hashCode();
@@ -4228,6 +4341,7 @@ java.lang.String defaultValue) {
         bitField0_ = 0;
         errCode_ = 0;
         errMsg_ = "";
+        expired_ = false;
         jwtInfo_ = null;
         if (jwtInfoBuilder_ != null) {
           jwtInfoBuilder_.dispose();
@@ -4272,8 +4386,11 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.errMsg_ = errMsg_;
         }
-        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.expired_ = expired_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           result.jwtInfo_ = jwtInfoBuilder_ == null
               ? jwtInfo_
               : jwtInfoBuilder_.build();
@@ -4334,6 +4451,9 @@ java.lang.String defaultValue) {
           bitField0_ |= 0x00000002;
           onChanged();
         }
+        if (other.getExpired() != false) {
+          setExpired(other.getExpired());
+        }
         if (other.hasJwtInfo()) {
           mergeJwtInfo(other.getJwtInfo());
         }
@@ -4373,13 +4493,18 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 18
-              case 26: {
+              case 24: {
+                expired_ = input.readBool();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 34: {
                 input.readMessage(
                     getJwtInfoFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000004;
+                bitField0_ |= 0x00000008;
                 break;
-              } // case 26
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4501,18 +4626,58 @@ java.lang.String defaultValue) {
         return this;
       }
 
+      private boolean expired_ ;
+      /**
+       * <code>bool expired = 3;</code>
+       * @return The expired.
+       */
+      @java.lang.Override
+      public boolean getExpired() {
+        return expired_;
+      }
+      /**
+       * <code>bool expired = 3;</code>
+       * @param value The expired to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExpired(boolean value) {
+
+        expired_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool expired = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExpired() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        expired_ = false;
+        onChanged();
+        return this;
+      }
+
       private com.seezoon.stub.jwt.JwtPb.JwtInfo jwtInfo_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.seezoon.stub.jwt.JwtPb.JwtInfo, com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder, com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder> jwtInfoBuilder_;
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        * @return Whether the jwtInfo field is set.
        */
       public boolean hasJwtInfo() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        * @return The jwtInfo.
        */
       public com.seezoon.stub.jwt.JwtPb.JwtInfo getJwtInfo() {
@@ -4523,7 +4688,11 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public Builder setJwtInfo(com.seezoon.stub.jwt.JwtPb.JwtInfo value) {
         if (jwtInfoBuilder_ == null) {
@@ -4534,12 +4703,16 @@ java.lang.String defaultValue) {
         } else {
           jwtInfoBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public Builder setJwtInfo(
           com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder builderForValue) {
@@ -4548,16 +4721,20 @@ java.lang.String defaultValue) {
         } else {
           jwtInfoBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public Builder mergeJwtInfo(com.seezoon.stub.jwt.JwtPb.JwtInfo value) {
         if (jwtInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
+          if (((bitField0_ & 0x00000008) != 0) &&
             jwtInfo_ != null &&
             jwtInfo_ != com.seezoon.stub.jwt.JwtPb.JwtInfo.getDefaultInstance()) {
             getJwtInfoBuilder().mergeFrom(value);
@@ -4568,16 +4745,20 @@ java.lang.String defaultValue) {
           jwtInfoBuilder_.mergeFrom(value);
         }
         if (jwtInfo_ != null) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public Builder clearJwtInfo() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         jwtInfo_ = null;
         if (jwtInfoBuilder_ != null) {
           jwtInfoBuilder_.dispose();
@@ -4587,15 +4768,23 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder getJwtInfoBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return getJwtInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       public com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder getJwtInfoOrBuilder() {
         if (jwtInfoBuilder_ != null) {
@@ -4606,7 +4795,11 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 3;</code>
+       * <pre>
+       * 过期为空
+       * </pre>
+       *
+       * <code>.com.seezoon.jwt.JwtInfo jwtInfo = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.seezoon.stub.jwt.JwtPb.JwtInfo, com.seezoon.stub.jwt.JwtPb.JwtInfo.Builder, com.seezoon.stub.jwt.JwtPb.JwtInfoOrBuilder> 
@@ -4733,15 +4926,16 @@ java.lang.String defaultValue) {
       ":\0028\001\"4\n\007SignReq\022)\n\007jwtInfo\030\001 \001(\0132\030.com.s" +
       "eezoon.jwt.JwtInfo\"<\n\010SignResp\022\020\n\010err_co" +
       "de\030\001 \001(\005\022\017\n\007err_msg\030\002 \001(\t\022\r\n\005token\030\003 \001(\t" +
-      "\"\032\n\tVerifyReq\022\r\n\005token\030\001 \001(\t\"Z\n\nVerifyRe" +
-      "sp\022\020\n\010err_code\030\001 \001(\005\022\017\n\007err_msg\030\002 \001(\t\022)\n" +
-      "\007jwtInfo\030\003 \001(\0132\030.com.seezoon.jwt.JwtInfo" +
-      "2\211\001\n\003Jwt\022=\n\004Sign\022\030.com.seezoon.jwt.SignR" +
-      "eq\032\031.com.seezoon.jwt.SignResp\"\000\022C\n\006Verif" +
-      "y\022\032.com.seezoon.jwt.VerifyReq\032\033.com.seez" +
-      "oon.jwt.VerifyResp\"\000BN\n\024com.seezoon.stub" +
-      ".jwtB\005JwtPbP\000Z-github.com/seezoon-go-stu" +
-      "b/jwt-server-stub;pbb\006proto3"
+      "\"\032\n\tVerifyReq\022\r\n\005token\030\001 \001(\t\"k\n\nVerifyRe" +
+      "sp\022\020\n\010err_code\030\001 \001(\005\022\017\n\007err_msg\030\002 \001(\t\022\017\n" +
+      "\007expired\030\003 \001(\010\022)\n\007jwtInfo\030\004 \001(\0132\030.com.se" +
+      "ezoon.jwt.JwtInfo2\211\001\n\003Jwt\022=\n\004Sign\022\030.com." +
+      "seezoon.jwt.SignReq\032\031.com.seezoon.jwt.Si" +
+      "gnResp\"\000\022C\n\006Verify\022\032.com.seezoon.jwt.Ver" +
+      "ifyReq\032\033.com.seezoon.jwt.VerifyResp\"\000BN\n" +
+      "\024com.seezoon.stub.jwtB\005JwtPbP\000Z-github.c" +
+      "om/seezoon-go-stub/jwt-server-stub;pbb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4782,7 +4976,7 @@ java.lang.String defaultValue) {
     internal_static_com_seezoon_jwt_VerifyResp_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_seezoon_jwt_VerifyResp_descriptor,
-        new java.lang.String[] { "ErrCode", "ErrMsg", "JwtInfo", });
+        new java.lang.String[] { "ErrCode", "ErrMsg", "Expired", "JwtInfo", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

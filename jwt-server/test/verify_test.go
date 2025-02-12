@@ -52,7 +52,8 @@ func TestVerifyExpired(t *testing.T) {
 		Token: signResp.Token,
 	})
 	assert.NoError(t, err)
-	assert.True(t, resp.ErrCode == errs.JwtTokenExpired.Code)
+	assert.True(t, resp.ErrCode == 0)
+	assert.True(t, resp.Expired)
 }
 
 func BenchmarkVerify(b *testing.B) {

@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"jwt-server/entity/errs"
@@ -40,4 +41,13 @@ func TestSignErr(t *testing.T) {
 	}, []byte("123456"))
 	assert.True(t, len(token) == 0)
 	assert.Equal(t, err.(*errs.Error).Code, errs.AttrKeyLimit.Code)
+}
+
+func TestIs(t *testing.T) {
+	f := func() error {
+		return errs.JwtTokenExpired
+	}
+	err := f()
+	fmt.Println(errors.Is(err, errs.JwtTokenExpired))
+	fmt.Println(errors.Is(err, errs.JwtError))
 }

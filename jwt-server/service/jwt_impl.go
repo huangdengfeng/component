@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	log "github.com/sirupsen/logrus"
 	"jwt-server/entity/errs"
 	"jwt-server/entity/jwt"
@@ -46,9 +47,13 @@ func (j *jwtServerImpl) Verify(ctx context.Context, req *pb.VerifyReq) (*pb.Veri
 	jwtInfo, err := j.jwtService.Verify(req.Token)
 	if err != nil {
 		log.Errorf("Verify error [%s]", err)
+		if errors.Is(err, errs.JwtTokenExpired) {
+			return &pb.VerifyResp{Expired: true}, nil
+		}
 		e := errs.Parse(err)
 		return &pb.VerifyResp{ErrCode: e.Code, ErrMsg: e.Msg}, nil
 	}
+
 	return &pb.VerifyResp{
 		JwtInfo: &pb.JwtInfo{
 			Sub:        jwtInfo.Sub,

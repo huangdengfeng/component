@@ -43,7 +43,9 @@ message VerifyReq {
 message VerifyResp {
   int32 err_code = 1;
   string err_msg = 2;
-  JwtInfo jwtInfo = 3;
+  bool expired = 3;
+  // 过期为空
+  JwtInfo jwtInfo = 4;
 }
 
 service Jwt {
