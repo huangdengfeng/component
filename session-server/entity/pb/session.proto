@@ -1,0 +1,104 @@
+syntax = "proto3";
+package com.seezoon.session;
+option go_package = "github.com/seezoon-go-stub/session-server-stub;pb";
+option java_package = "com.seezoon.stub.session";
+option java_outer_classname="SessionPb";
+option java_multiple_files = false;
+
+service Session {
+  // 创建session
+  rpc Create(CreateReq) returns(CreateResp){}
+  // 设置属性
+  rpc SetAttribute(SetAttributeReq) returns(SetAttributeResp){}
+  // 获取属性
+  rpc GetAttribute(GetAttributeReq) returns(GetAttributeResp){}
+  // 获取全部属性
+  rpc GetAllAttribute(GetAllAttributeReq) returns(GetAllAttributeResp){}
+  // 删除属性
+  rpc RemoveAttribute(RemoveAttributeReq) returns(RemoveAttributeResp){}
+  // 销毁
+  rpc Invalidate(InvalidateReq) returns(InvalidateResp){}
+}
+
+message CreateReq {
+  // 过期周期，单位秒,大于0
+  int64 max_inactive_interval = 1;
+  // 属性，可空，map key 不能空
+  map<string, bytes> attributes = 2;
+}
+
+message CreateResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+  string session_id = 3 ;
+}
+
+message SetAttributeReq {
+  // 非空
+  string session_id = 1;
+  // 非空
+  string key = 2;
+  bytes value = 3;
+}
+
+message SetAttributeResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+  // session 过期
+  bool session_invalid = 3;
+}
+
+message GetAttributeReq {
+  // 非空
+  string session_id = 1;
+  // 非空
+  string key = 2;
+}
+
+message GetAttributeResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+  // session 过期
+  bool session_invalid = 3;
+  // 未过期返回
+  bytes value = 4 ;
+}
+
+message GetAllAttributeReq {
+  // 非空
+  string session_id = 1;
+}
+
+message GetAllAttributeResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+  // session 过期
+  bool session_invalid = 3;
+  // 过期后以下不返回
+  map<string, bytes> attributes = 4;
+}
+
+message RemoveAttributeReq {
+  // 非空
+  string session_id = 1;
+  // 非空
+  string key = 2;
+}
+
+message RemoveAttributeResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+  // session 过期
+  bool session_invalid = 3;
+}
+
+message InvalidateReq {
+  // 非空
+  string session_id = 1;
+}
+
+message InvalidateResp {
+  int32 err_code = 1;
+  string err_msg = 2;
+}
+
