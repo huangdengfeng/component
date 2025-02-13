@@ -11,13 +11,13 @@ import (
 
 func TestSession(t *testing.T) {
 	ctx := context.Background()
-	resp, err := client.Create(ctx, &pb.CreateReq{
+	resp, err := gclient.Create(ctx, &pb.CreateReq{
 		MaxInactiveInterval: 1800,
 		Attributes:          nil,
 	})
 	assert.NoError(t, err)
 	fmt.Println("sessionId:", resp.SessionId)
-	setAttributeresp, err := client.SetAttribute(ctx, &pb.SetAttributeReq{
+	setAttributeresp, err := gclient.SetAttribute(ctx, &pb.SetAttributeReq{
 		SessionId: resp.SessionId,
 		Key:       "uid",
 		Value:     []byte(strconv.Itoa(1000)),
@@ -25,7 +25,7 @@ func TestSession(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, setAttributeresp)
 
-	setAttributeresp1, err := client.SetAttribute(ctx, &pb.SetAttributeReq{
+	setAttributeresp1, err := gclient.SetAttribute(ctx, &pb.SetAttributeReq{
 		SessionId: resp.SessionId + "_not_exists",
 		Key:       "uid",
 		Value:     []byte(strconv.Itoa(1000)),
@@ -33,14 +33,14 @@ func TestSession(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, setAttributeresp1.SessionInvalid)
 
-	getAttributeResp, err := client.GetAttribute(ctx, &pb.GetAttributeReq{
+	getAttributeResp, err := gclient.GetAttribute(ctx, &pb.GetAttributeReq{
 		SessionId: resp.SessionId,
 		Key:       "uid",
 	})
 	assert.NoError(t, err)
 	assert.Equal(t, []byte(strconv.Itoa(1000)), getAttributeResp.Value)
 
-	getAttributeResp1, err := client.GetAttribute(ctx, &pb.GetAttributeReq{
+	getAttributeResp1, err := gclient.GetAttribute(ctx, &pb.GetAttributeReq{
 		SessionId: resp.SessionId + "_not_exists",
 		Key:       "uid",
 	})
@@ -48,7 +48,7 @@ func TestSession(t *testing.T) {
 	assert.True(t, getAttributeResp1.SessionInvalid)
 	assert.Empty(t, getAttributeResp1.Value)
 
-	getResp, err := client.GetAllAttribute(ctx, &pb.GetAllAttributeReq{
+	getResp, err := gclient.GetAllAttribute(ctx, &pb.GetAllAttributeReq{
 		SessionId: resp.SessionId,
 	})
 	assert.NoError(t, err)
@@ -65,7 +65,7 @@ func BenchmarkCreate(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		ctx := context.Background()
-		resp, err := client.Create(ctx, &pb.CreateReq{
+		resp, err := gclient.Create(ctx, &pb.CreateReq{
 			MaxInactiveInterval: 1800,
 			Attributes:          attributes})
 		assert.NoError(b, err)
@@ -80,14 +80,14 @@ func BenchmarkGetAllAttribute(b *testing.B) {
 		"name":     []byte("黄登峰"),
 	}
 	ctx := context.Background()
-	resp, err := client.Create(ctx, &pb.CreateReq{
+	resp, err := gclient.Create(ctx, &pb.CreateReq{
 		MaxInactiveInterval: 1800,
 		Attributes:          attributes})
 	assert.NoError(b, err)
 	assert.NotEmpty(b, resp.SessionId)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		getResp, err := client.GetAllAttribute(ctx, &pb.GetAllAttributeReq{
+		getResp, err := gclient.GetAllAttribute(ctx, &pb.GetAllAttributeReq{
 			SessionId: resp.SessionId,
 		})
 		assert.NoError(b, err)

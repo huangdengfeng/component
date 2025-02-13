@@ -5,7 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"session-server/entity/config"
-	gclient "session-server/entity/grpc/client"
+	"session-server/entity/grpc/client"
 	"session-server/entity/grpc/server"
 	"session-server/entity/pb"
 	"session-server/logic"
@@ -14,7 +14,7 @@ import (
 	"testing"
 )
 
-var client pb.SessionClient
+var gclient pb.SessionClient
 
 func TestMain(m *testing.M) {
 	setup()
@@ -41,8 +41,8 @@ func setup() {
 
 	server.Start(createSessionServer())
 
-	// start client
-	client = gclient.CreateClient(config.Global.Server.Listen)
+	// start gclient
+	gclient = client.CreateClient(config.Global.Server.Listen)
 
 	log.Infof("[test] set up init success")
 }

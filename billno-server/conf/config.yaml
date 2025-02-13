@@ -1,0 +1,23 @@
+server:
+  listen: :6200
+log:
+  filename: logs/app.log
+  # M
+  maxSize: 1024
+  # Day
+  maxAge: 10
+  level: debug
+  reportCaller: false
+  outputToConsole: true
+db:
+  # user:password , timeout for connection timeout
+  # clientFoundRows mysql 的go 驱动如果更新相同数据，返回影响行数为0，实际开发我们要求是用实际匹配到的行数，JDBC默认是实际匹配到的行数，可以设置使用实际影响行数useAffectedRows=true
+  dsn: '%s:%s@tcp(127.0.0.1:3306)/billno_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=2s&readTimeout=60s&clientFoundRows=true'
+  user: root
+  password: 12345678
+  maxOpenConns: 10
+  maxIdleConns: 10
+  # S
+  connMaxLifetime: 3600
+  # S
+  connMaxIdleTime: 600
