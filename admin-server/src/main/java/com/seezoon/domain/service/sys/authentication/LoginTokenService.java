@@ -45,16 +45,28 @@ public class LoginTokenService {
      * 为用户创建登录token
      *
      * @param userId
-     * @param userSecretKey
      * @return not null
      */
-    public String create(@NotNull Integer userId, @NotEmpty String userSecretKey) {
+    public String createAccessToken(@NotNull Integer userId) {
         String subject = String.valueOf(userId);
-        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, null, genCheckSum(subject, userSecretKey));
+        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, null);
         String accessToken = jwtToken.create(tokenInfoVO, accessTokenExpireIn);
         return accessToken;
     }
 
+    /**
+     * 为用户创建refresh token
+     *
+     * @param userId
+     * @param userSecretKey
+     * @return not null
+     */
+    public String createRefreshToken(@NotNull Integer userId, @NotEmpty String userSecretKey) {
+        String subject = String.valueOf(userId);
+        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, null, genCheckSum(subject, userSecretKey));
+        String refreshToken = jwtToken.create(tokenInfoVO, refreshTokenExpireIn);
+        return refreshToken;
+    }
 
     /**
      * 获取用户Id

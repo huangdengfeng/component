@@ -31,12 +31,14 @@ public enum ErrorCode implements ErrorDefinition {
     SYS_ADMIN_NOT_ALLOW_MODIFY(2000, "系统管理员禁止修改"),
     SYS_USER_NAME_EXISTS(2001, "用户名已存在"),
     USER_NOT_EXISTS(2002, "用户不存在"),
-    USER_STATUS_INVALID(2003, "用户状态不正常"),
+    USER_STATUS_INVALID(2003, "用户状态异常"),
     USER_STATUS_LOCKED(2004, "用户已锁定，请联系管理员"),
     USER_PASSWD_WRONG(2005, "用户名或密码错误"),
     OLD_PASSWD_WRONG(2006, "原密码错误"),
     USER_AUTHORIZATION(2007, "获取认证信息失败，请稍后重试"),
     ORIGINAL_PASSWD_WRONG(2008, "原密码错误"),
+    INVALID_REFRESH_TOKEN(2009, "令牌无效"),
+
 
     PERMISSION_CODE_EXISTS(2030, "权限编码已存在"),
     PERMISSION_PARENT_NOT_EXISTS(2031, "父权限编码不存在"),

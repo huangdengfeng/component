@@ -45,7 +45,7 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
     // 一般换成redis
     private final Cache<Integer, UserDetailsVO> caches = CacheBuilder.newBuilder()
             // 设置容量大小 默认无限
-            // .maximumSize(5000)
+            .maximumSize(5000)
             // 设置超时时间
             .expireAfterWrite(2, TimeUnit.MINUTES).build();
 
@@ -70,12 +70,6 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
             throw e;
         }
         if (null == userDetails) {
-            return null;
-        }
-        // check token info
-        if (!loginTokenService.validateCheckSum(tokenInfo.getCheckSum(), tokenInfo.getSubject(),
-                userDetails.getSecretKey())) {
-            log.error("token checksum not match,userId:{}", userId);
             return null;
         }
         return userDetails;
@@ -103,8 +97,7 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
         for (String permission : permissions) {
             authorities.add(new UserGrantedAuthority(permission, false));
         }
-        UserDetailsVO userDetails = new UserDetailsVO(sysUserPO.getUserName(), userId, authorities,
-                sysUserPO.getSecretKey());
+        UserDetailsVO userDetails = new UserDetailsVO(sysUserPO.getUserName(), userId, authorities);
         return userDetails;
     }
 

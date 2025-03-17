@@ -6,7 +6,7 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
   application:
-    name: admin-beacon
+    name: admin-server
 server:
   port: 8080
   shutdown: graceful

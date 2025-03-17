@@ -25,10 +25,14 @@ public class TokenInfoVO {
      */
     private String checkSum;
 
-    public TokenInfoVO(String subject, String tokenId, String checkSum) {
+    public TokenInfoVO(String subject, String tokenId) {
         Assert.hasText(subject, "subject must not empty");
         this.subject = subject;
         this.tokenId = tokenId;
+    }
+
+    public TokenInfoVO(String subject, String tokenId, String checkSum) {
+        this(subject, tokenId);
         this.checkSum = checkSum;
     }
 }

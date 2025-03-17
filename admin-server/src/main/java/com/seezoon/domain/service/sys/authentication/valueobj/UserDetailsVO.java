@@ -16,22 +16,16 @@ public class UserDetailsVO implements UserDetails {
     private final String username;
     private final Integer userId;
     private final Collection<? extends GrantedAuthority> authorities;
-    private final String secretKey;
 
     public UserDetailsVO(String username, Integer userId,
-            Collection<? extends GrantedAuthority> authorities, String secretKey) {
+            Collection<? extends GrantedAuthority> authorities) {
         this.username = Objects.requireNonNull(username);
         this.userId = Objects.requireNonNull(userId);
         this.authorities = Objects.requireNonNull(authorities);
-        this.secretKey = Objects.requireNonNull(secretKey);
     }
 
     public Integer getUserId() {
         return userId;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
     }
 
     @Override

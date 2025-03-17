@@ -1,7 +1,10 @@
 package com.seezoon.interfaces.sys;
 
+import com.seezoon.application.sys.authentication.dto.RefreshTokenCmd;
 import com.seezoon.application.sys.authentication.dto.UserPasswdLoginCmd;
+import com.seezoon.application.sys.authentication.dto.clientobject.AccessTokenCO;
 import com.seezoon.application.sys.authentication.dto.clientobject.AuthorizationTokenCO;
+import com.seezoon.application.sys.authentication.executor.RefreshTokenCmdExe;
 import com.seezoon.application.sys.authentication.executor.UserPasswdLoginCmdExe;
 import com.seezoon.infrastructure.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,10 +28,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysLoginController {
 
     private final UserPasswdLoginCmdExe userPasswdLoginCmdExe;
+    private final RefreshTokenCmdExe refreshTokenCmdExe;
 
     @Operation(summary = "账号密码登录")
     @PostMapping("/user_passwd")
     public Response<AuthorizationTokenCO> userPasswdLogin(@RequestBody UserPasswdLoginCmd cmd) {
         return userPasswdLoginCmdExe.execute(cmd);
+    }
+
+    @Operation(summary = "刷新访问令牌")
+    @PostMapping("/refresh_token")
+    public Response<AccessTokenCO> refreshToken(@RequestBody RefreshTokenCmd cmd) {
+        return refreshTokenCmdExe.execute(cmd);
     }
 }

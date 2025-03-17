@@ -4,6 +4,7 @@ import com.seezoon.application.sys.authentication.dto.UserPasswdLoginCmd;
 import com.seezoon.application.sys.authentication.dto.clientobject.AuthorizationTokenCO;
 import com.seezoon.domain.dao.mapper.SysUserMapper;
 import com.seezoon.domain.dao.po.SysUserPO;
+import com.seezoon.domain.service.sys.ModifyUserService;
 import com.seezoon.domain.service.sys.authentication.LoginTokenService;
 import com.seezoon.domain.service.sys.authentication.UserPasswdVerifyService;
 import com.seezoon.domain.service.sys.valueobj.UserStatusVO;
@@ -30,6 +31,7 @@ public class UserPasswdLoginCmdExe {
 
     private final LoginTokenService loginTokenService;
     private final UserPasswdVerifyService userPasswdVerifyService;
+    private final ModifyUserService modifyUserService;
     private final SysUserMapper sysUserMapper;
 
     public Response<AuthorizationTokenCO> execute(@NotNull @Valid UserPasswdLoginCmd cmd) {
@@ -47,10 +49,15 @@ public class UserPasswdLoginCmdExe {
         if (UserStatusVO.isLocked(userStatus)) {
             return Response.error(ErrorCode.USER_STATUS_LOCKED.code(), ErrorCode.USER_STATUS_LOCKED.msg());
         }
-        String accessToken = loginTokenService.create(sysUserPO.getUid(), sysUserPO.getSecretKey());
+        // 登录后重置用户安全Key
+        Integer uid = sysUserPO.getUid();
+        String secretKey = modifyUserService.modifySecretKey(uid, uid);
+
+        String accessToken = loginTokenService.createAccessToken(uid);
+        String refreshToken = loginTokenService.createRefreshToken(uid, secretKey);
         AuthorizationTokenCO co = new AuthorizationTokenCO();
         co.setAccessToken(accessToken);
-        co.setRefreshToken(accessToken);
+        co.setRefreshToken(refreshToken);
         co.setAccessTokenExpiresIn(loginTokenService.getAccessTokenExpireIn().toSeconds());
         co.setRefreshTokenExpiresIn(loginTokenService.getRefreshTokenExpireIn().toSeconds());
         return Response.success(co);

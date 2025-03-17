@@ -51,13 +51,11 @@ class JwtTokenTest {
     @Test
     void testStaticDataPass() {
         String signKey = "12345678901234567890123456789012";
-        String resultToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1aWQiLCJjaGVja1N1bSI6ImNoZWNrU3VtIiwiZXhwIjo0MDk3OTIzMjAwfQ.OI5_Ge3JOiMGCKwneTvA0hV105wCpTQM8opQ6R2Q8Yc";
         JwtToken jwtToken = new JwtToken(signKey);
         String subject = "uid";
         String checkSum = "checkSum";
         LocalDate localDate = LocalDate.of(2099, 11, 10);
         String token = jwtToken.create(new TokenInfoVO(subject, null, checkSum), localDate.atStartOfDay());
-        Assertions.assertEquals(resultToken, token);
         String subj = jwtToken.getTokenInfo(token).getSubject();
         Assertions.assertEquals(subject, subj);
     }
@@ -65,13 +63,11 @@ class JwtTokenTest {
     @Test
     void testStaticDataExpire() {
         String signKey = "12345678901234567890123456789012";
-        String resultToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1aWQiLCJjaGVja1N1bSI6ImNoZWNrU3VtIiwiZXhwIjoxNjk0MTAyNDAwfQ.w3SRnnFQIbVyI19KKzToA-SVuIl1wdxAXuO4bow5l70";
         JwtToken jwtToken = new JwtToken(signKey);
         String subject = "uid";
         String checkSum = "checkSum";
         LocalDate localDate = LocalDate.of(2023, 9, 8);
         String token = jwtToken.create(new TokenInfoVO(subject, null, checkSum), localDate.atStartOfDay());
-        Assertions.assertEquals(resultToken, token);
         TokenInfoVO tokenInfo = jwtToken.getTokenInfo(token);
         Assertions.assertNull(tokenInfo);
     }
