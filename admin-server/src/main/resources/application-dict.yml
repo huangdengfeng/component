@@ -9,6 +9,6 @@ app:
       - value: 1
         name: 有效
       - value: 2
-        name: 无效
+        name: 停用
       - value: 3
         name: 已锁定

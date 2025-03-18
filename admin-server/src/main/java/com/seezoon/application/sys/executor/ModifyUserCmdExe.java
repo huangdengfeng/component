@@ -28,7 +28,7 @@ public class ModifyUserCmdExe {
     private final ModifyUserService modifyUserService;
 
     public Response execute(@Valid @NotNull ModifyUserCmd cmd) {
-        Integer userId = SecurityContext.getUserId();
+        Integer userId = cmd.getUid();
         if (SecurityContext.isSuperAdmin(userId)) {
             return Response.error(ErrorCode.SYS_ADMIN_NOT_ALLOW_MODIFY.code(),
                     ErrorCode.SYS_ADMIN_NOT_ALLOW_MODIFY.msg());

@@ -51,6 +51,9 @@ public abstract class PageQuery {
     }
 
     public void setOrderBy(String orderBy) {
+        if (StringUtils.isEmpty(orderBy)) {
+            return;
+        }
         this.orderBy = orderBy;
         if (!isValidOrderBy(orderBy)) {
             throw new IllegalArgumentException(

@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -61,9 +60,7 @@ public class ModifyUserService {
         po.setRemark(vo.getRemark());
         int affectedRows = sysUserMapper.updateByPrimaryKey(po);
         expectOneRow(affectedRows);
-        if (!CollectionUtils.isEmpty(vo.getRoleIds())) {
-            addUserRoleService.saveRoles(vo.getRoleIds(), vo.getUid(), operator);
-        }
+        addUserRoleService.saveRoles(vo.getRoleIds(), vo.getUid(), operator);
     }
 
     public void modifyPwd(@NotNull Integer uid, @NotEmpty String password,

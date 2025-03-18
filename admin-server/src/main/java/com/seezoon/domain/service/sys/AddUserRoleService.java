@@ -7,7 +7,6 @@ import com.seezoon.domain.dao.mapper.SysUserRoleMapper;
 import com.seezoon.domain.dao.po.SysUserRolePO;
 import com.seezoon.infrastructure.error.ErrorCode;
 import com.seezoon.infrastructure.exception.ExceptionFactory;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -47,9 +47,12 @@ public class AddUserRoleService {
      * @param operator
      * @return 影响函数
      */
-    public int saveRoles(@NotEmpty Set<Integer> roleIds, @NotNull Integer uid, @NotNull Integer operator) {
+    public int saveRoles(Set<Integer> roleIds, @NotNull Integer uid, @NotNull Integer operator) {
         int deleteRows = sysUserRoleMapper.deleteByUserId(uid);
         log.info("delete uid [{}] role count:{}", uid, deleteRows);
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return deleteRows;
+        }
         List<Integer> allRoleIds = sysRoleMapper.selectAll().stream().map(v -> v.getId()).collect(Collectors.toList());
         if (!allRoleIds.containsAll(roleIds)) {
             throw ExceptionFactory.bizException(ErrorCode.ROLE_LIST_ERROR);
