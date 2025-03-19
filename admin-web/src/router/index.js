@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,22 +14,17 @@ const router = createRouter({
           component: () => import('@/pages/sys/user/index.vue')
         },
         {
-          path: '/sys/role',
-          name: 'SysRole',
-          component: () => import('@/pages/sys/role/index.vue')
-        },
-        {
-            path: '/sys/user/center',
-            name: 'SysUserCenter',
-            component: () => import('@/pages/sys/user/Center.vue')
+          path: '/sys/user/center',
+          name: 'SysUserCenter',
+          component: () => import('@/pages/sys/user/Center.vue')
         }
       ]
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: () => import('@/pages/login/Login.vue')
-      },
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/pages/login/Login.vue')
+    },
     // 添加404路由
     {
       path: '/:pathMatch(.*)*',
