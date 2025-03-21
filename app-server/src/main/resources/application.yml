@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: app-server
+  profiles:
+    active: local
+    include: db
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+  server:
+    port: 8080
+    shutdown: graceful
+    tomcat:
+      basedir: .
+      connection-timeout: 60s
+      threads:
+        max: 2000
+      accesslog:
+        # %h %l %u %t %r %s %b 默认
+        #pattern see https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Access_Logging
+        pattern: '%h %l %u %t %r %s %b %D'
+        enabled: ${acclog.enabled}
+        max-days: 10
+app:
+  login:
+    access-token-expire: 2h
+    wx-app-id: wx76561e919bb4753a
+    wx-secret: 9946a3c0127a810648307815edf1f8fb

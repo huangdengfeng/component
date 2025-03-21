@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- see http://mybatis.org/generator/configreference/xmlconfig.html -->
+<generatorConfiguration>
+
+    <context id="MysqlTables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection
+                connectionURL="jdbc:mysql://9.135.14.136:3306/key_mgr"
+                driverClass="com.mysql.cj.jdbc.Driver"
+                password="root1234"
+                userId="root">
+            <!-- 只获取当前指定库的表-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+        <!-- targetProject="MAVEN" is decided by mybatis-generator-maven-plugin,default is   ${project.build.directory}/generated-sources/mybatis-generator -->
+        <javaModelGenerator targetPackage="com.seezoon.user.domain.dao.po"
+                            targetProject="MAVEN">
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.seezoon.user.domain.dao.mapper"
+                         targetProject="MAVEN">
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.seezoon.user.domain.dao.mapper"
+                             targetProject="MAVEN"
+                             type="XMLMAPPER">
+        </javaClientGenerator>
+        <table enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false"
+               tableName="t_base_hash_version">
+            <domainObjectRenamingRule searchString="^T" replaceString=""/>
+            <columnRenamingRule searchString="^F" replaceString=""/>
+
+        </table>
+    </context>
+</generatorConfiguration>
