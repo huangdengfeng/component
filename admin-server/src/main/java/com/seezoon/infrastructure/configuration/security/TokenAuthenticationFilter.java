@@ -58,7 +58,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         } catch (BaseException e) {
             log.error("get user details biz error", e);
             // 如果是自定义异常则直接抛出
-            this.output(response, e.getcode(), e.getMessage());
+            this.output(response, e.getCode(), e.getMessage());
             return;
         } catch (Throwable e) {
             log.error("get user details unkown error", e);
