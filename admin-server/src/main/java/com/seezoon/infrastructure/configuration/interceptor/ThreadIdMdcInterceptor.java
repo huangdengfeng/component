@@ -3,6 +3,7 @@ package com.seezoon.infrastructure.configuration.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -17,12 +18,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 public class ThreadIdMdcInterceptor implements HandlerInterceptor {
 
+    public static final String REQ_ID = "X-Request-Id";
     private static final String NAME = "tid";
     private static final int LENGTH = 10;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        MDC.put(NAME, RandomStringUtils.randomAlphanumeric(LENGTH));
+        String requestId = request.getHeader(REQ_ID);
+        if (StringUtils.isEmpty(requestId)) {
+            requestId = RandomStringUtils.randomAlphanumeric(LENGTH);
+        }
+        MDC.put(NAME, requestId);
+        // 设置到响应
+        response.setHeader(REQ_ID, requestId);
         return true;
     }
 
