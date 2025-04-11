@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seezoon.domain.dao.mapper.CmsContentMapper">
+    <resultMap id="BaseResultMap" type="com.seezoon.domain.dao.po.CmsContentPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="views" jdbcType="INTEGER" property="views"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <!-- join -->
+        <result column="ext.type_name" property="ext.typeName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        t.id, t.title, t.description, t.type, t.views, t.status, t.publish_time, t.create_time, t.update_time,
+        ct.name as 'ext.type_name'
+    </sql>
+    <sql id="Blob_Column_List">
+        t.content
+    </sql>
+
+    <sql id="Query_Table">
+        t_cms_content t left join t_cms_content_type ct on t.type = ct.id
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from  <include refid="Query_Table"/>
+        where t.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByCondition" parameterType="com.seezoon.domain.dao.po.CmsContentPOCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from <include refid="Query_Table"/>
+        <where>
+            <if test="type != null">
+                and t.type = #{type}
+            </if>
+            <if test="status != null">
+                and t.status = #{status}
+            </if>
+            <if test="fuzzyTitle != null and fuzzyTitle != ''">
+                and t.title like concat('%', #{fuzzyTitle}, '%')
+            </if>
+        </where>
+        order by t.publish_time desc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_cms_content
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.seezoon.domain.dao.po.CmsContentPO" useGeneratedKeys="true" keyProperty="id">
+        insert into t_cms_content (title, description,
+                                 content, type, views,
+                                 status, publish_time,
+                                 create_time, update_time)
+        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+                #{content,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
+                #{status,jdbcType=TINYINT}, #{publishTime,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.seezoon.domain.dao.po.CmsContentPO">
+        update t_cms_content
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="views != null">
+                views = #{views,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.seezoon.domain.dao.po.CmsContentPO">
+        update t_cms_content
+        set title        = #{title,jdbcType=VARCHAR},
+            description  = #{description,jdbcType=VARCHAR},
+            content      = #{content,jdbcType=VARCHAR},
+            type         = #{type,jdbcType=INTEGER},
+            views        = #{views,jdbcType=INTEGER},
+            status       = #{status,jdbcType=TINYINT},
+            publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            create_time  = #{createTime,jdbcType=TIMESTAMP},
+            update_time  = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+</mapper> 
