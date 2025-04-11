@@ -4,6 +4,8 @@ import com.seezoon.domain.dao.po.UserProfilePO;
 
 public interface UserProfileMapper {
 
+    UserProfilePO selectByMobile(String mobile);
+
     int deleteByPrimaryKey(Long uid);
 
     int insert(UserProfilePO row);

@@ -1,7 +1,7 @@
 package com.seezoon.infrastructure.configuration.interceptor;
 
 import com.seezoon.infrastructure.configuration.context.SecurityContextHolder;
-import com.seezoon.infrastructure.security.JwtService;
+import com.seezoon.infrastructure.security.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
@@ -15,10 +15,10 @@ public class SessionInterceptor implements HandlerInterceptor {
     private static final String PREFIX = "Bearer ";
     private static int PREFIX_LENGTH = PREFIX.length();
 
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
-    public SessionInterceptor(JwtService jwtService) {
-        this.jwtService = Objects.requireNonNull(jwtService);
+    public SessionInterceptor(TokenService tokenService) {
+        this.tokenService = Objects.requireNonNull(tokenService);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             return false;
         }
         String token = authorization.substring(PREFIX_LENGTH);
-        String uid = jwtService.verify(token);
+        String uid = tokenService.verify(token);
         if (StringUtils.isEmpty(uid)) {
             // 401 未登录
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

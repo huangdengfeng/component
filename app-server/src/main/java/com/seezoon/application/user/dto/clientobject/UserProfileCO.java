@@ -1,4 +1,4 @@
-package com.seezoon.application.dto.clientobject;
+package com.seezoon.application.user.dto.clientobject;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.seezoon.infrastructure.constants.Constants;

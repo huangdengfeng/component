@@ -2,7 +2,8 @@ package com.seezoon.domain.valueobj;
 
 public enum OauthType {
 
-    WX((byte) 1);
+    WX_MINI_PROGRAM((byte) 1),
+    WX_PUBLIC_PLATFORM((byte) 2);
 
     private byte type;
 

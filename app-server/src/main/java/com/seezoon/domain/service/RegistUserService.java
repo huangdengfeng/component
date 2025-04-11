@@ -14,6 +14,7 @@ import com.seezoon.infrastructure.exception.Assertion;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,7 +25,6 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-@Transactional
 @Validated
 public class RegistUserService {
 
@@ -32,7 +32,27 @@ public class RegistUserService {
     private final OauthMapper oauthMapper;
     private final UserProfileMapper userProfileMapper;
 
-    public Long execute(@NotNull OauthType oauthType, @NotEmpty String oauthId, String unionId) {
+    @Transactional
+    public UserPO mobileRegist(@NotEmpty String mobile) {
+        UserPO user = this.saveUser();
+        this.saveProfile((po) -> {
+            po.setUid(user.getUid());
+            po.setMobile(mobile);
+        });
+        return user;
+    }
+
+    @Transactional
+    public UserPO oauthRegist(@NotNull OauthType oauthType, @NotEmpty String oauthId, String unionId) {
+        UserPO user = this.saveUser();
+        this.saveOauth(user.getUid(), oauthType.type(), oauthId, unionId);
+        this.saveProfile((po) -> {
+            po.setUid(user.getUid());
+        });
+        return user;
+    }
+
+    private UserPO saveUser() {
         UserPO user = new UserPO();
         user.setSecretKey(genSecretKey());
         user.setStatus(UserStatus.VALID.code());
@@ -41,12 +61,9 @@ public class RegistUserService {
         int affectedRows = userMapper.insert(user);
         Assertion.affectedOne(affectedRows);
         Assertion.notNull(user.getUid());
-
-        this.saveOauth(user.getUid(), oauthType.type(), oauthId, unionId);
-        this.saveProfile(user.getUid());
-
-        return user.getUid();
+        return user;
     }
+
 
     private void saveOauth(Long uid, Byte oauthType, String oauthId, String unionId) {
         OauthPO po = new OauthPO();
@@ -61,11 +78,12 @@ public class RegistUserService {
         Assertion.affectedOne(affectedRows);
     }
 
-    private void saveProfile(Long uid) {
+
+    private void saveProfile(Consumer<UserProfilePO> consumer) {
         UserProfilePO po = new UserProfilePO();
-        po.setUid(uid);
         po.setCreateTime(LocalDateTime.now());
         po.setUpdateTime(po.getCreateTime());
+        consumer.accept(po);
         int affectedRows = userProfileMapper.insert(po);
         Assertion.affectedOne(affectedRows);
     }

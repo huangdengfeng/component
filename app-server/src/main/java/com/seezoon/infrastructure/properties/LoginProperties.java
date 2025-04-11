@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 登录相关参数
@@ -21,16 +22,10 @@ public class LoginProperties {
      */
     @NotNull
     private Duration accessTokenExpire = Duration.ofHours(2);
-
     /**
-     * session 服务器接入点
+     * 登录安全密钥
      */
     @NotEmpty
-    private String sessionEndpoint;
-    @NotEmpty
-    private String wxAppId;
-    @NotEmpty
-    private String wxSecret;
-
-
+    @Length(min = 32)
+    private String secretKey;
 }

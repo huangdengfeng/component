@@ -1,4 +1,4 @@
-package com.seezoon.application.dto.clientobject;
+package com.seezoon.application.user.dto.clientobject;
 
 import lombok.Getter;
 import lombok.Setter;

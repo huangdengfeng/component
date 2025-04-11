@@ -1,6 +1,6 @@
-package com.seezoon.application.executor;
+package com.seezoon.application.user.executor;
 
-import com.seezoon.application.dto.clientobject.UserProfileCO;
+import com.seezoon.application.user.dto.clientobject.UserProfileCO;
 import com.seezoon.domain.dao.mapper.UserProfileMapper;
 import com.seezoon.domain.dao.po.UserProfilePO;
 import com.seezoon.infrastructure.configuration.context.SecurityContextHolder;

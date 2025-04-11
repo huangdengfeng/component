@@ -4,7 +4,7 @@ import com.seezoon.infrastructure.configuration.interceptor.SessionInterceptor;
 import com.seezoon.infrastructure.configuration.interceptor.ThreadIdMdcInterceptor;
 import com.seezoon.infrastructure.properties.AppProperties;
 import com.seezoon.infrastructure.properties.CorsProperties;
-import com.seezoon.infrastructure.security.JwtService;
+import com.seezoon.infrastructure.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -25,12 +25,12 @@ public class AutoWebMvcConfigurer implements WebMvcConfigurer {
     private static final String ALL = "/**";
     private static final String[] PUBLIC = {"/public/**", "/login/**", "/swagger-ui/**", "/v3/api-docs/**"};
     private final AppProperties appProperties;
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ThreadIdMdcInterceptor()).addPathPatterns(ALL);
-        registry.addInterceptor(new SessionInterceptor(jwtService)).addPathPatterns(ALL).excludePathPatterns(PUBLIC);
+        registry.addInterceptor(new SessionInterceptor(tokenService)).addPathPatterns(ALL).excludePathPatterns(PUBLIC);
     }
 
     /**

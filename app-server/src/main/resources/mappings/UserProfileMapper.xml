@@ -24,6 +24,12 @@
         from t_user_profile
         where uid = #{uid,jdbcType=BIGINT}
     </select>
+    <select id="selectByMobile" resultType="com.seezoon.domain.dao.po.UserProfilePO">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_profile
+        where mobile = #{mobile}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from t_user_profile

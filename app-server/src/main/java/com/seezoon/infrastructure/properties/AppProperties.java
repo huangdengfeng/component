@@ -29,4 +29,18 @@ public class AppProperties {
     @NotNull
     @NestedConfigurationProperty
     private CorsProperties cors = new CorsProperties();
+
+    @Valid
+    @NotNull
+    @NestedConfigurationProperty
+    private WxProperties wx = new WxProperties();
+
+    @Valid
+    @NotNull
+    @NestedConfigurationProperty
+    private AliyunProperties aliyun = new AliyunProperties();
+    /**
+     * 文件、图片前缀
+     */
+    private String fileUrlPrefix;
 }

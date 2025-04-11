@@ -1,8 +1,5 @@
 package com.seezoon.infrastructure.dto;
 
-import java.util.Collections;
-import java.util.List;
-
 public abstract class PageQuery {
 
 
@@ -43,11 +40,6 @@ public abstract class PageQuery {
      */
     public int pageSizeLimit() {
         return DEFAULT_PAGE_SIZE_LIMIT;
-    }
-
-
-    public List<String> allowedOrderFields() {
-        return Collections.emptyList();
     }
 
 }

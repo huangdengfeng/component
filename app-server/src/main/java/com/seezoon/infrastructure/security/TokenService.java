@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @Slf4j
 @Component
 @Validated
-public class JwtService implements InitializingBean {
+public class TokenService implements InitializingBean {
 
     private final AppProperties appProperties;
 
@@ -31,6 +31,6 @@ public class JwtService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        jwtFactory = new JwtFactory(appProperties.getLogin().getWxSecret());
+        jwtFactory = new JwtFactory(appProperties.getLogin().getSecretKey());
     }
 }

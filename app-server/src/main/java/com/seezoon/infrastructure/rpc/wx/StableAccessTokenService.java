@@ -1,5 +1,7 @@
 package com.seezoon.infrastructure.rpc.wx;
 
+import com.seezoon.infrastructure.error.ErrorCode;
+import com.seezoon.infrastructure.exception.ExceptionFactory;
 import com.seezoon.infrastructure.rpc.wx.dto.StableAccessTokenResp;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.HashMap;
@@ -26,7 +28,16 @@ public class StableAccessTokenService {
 
     private final RestClient restClient;
 
-    public StableAccessTokenResp execute(@NotEmpty String appId, @NotEmpty String secret) {
+    public String execute(@NotEmpty String appId, @NotEmpty String secret) {
+        StableAccessTokenResp resp = this.execute0(appId, secret);
+        if (!resp.success()) {
+            log.error("call wx stable_token error [{}] [{}]", resp.getErrcode(), resp.getErrmsg());
+            throw ExceptionFactory.bizException(ErrorCode.WX_ERROR);
+        }
+        return resp.getAccessToken();
+    }
+
+    public StableAccessTokenResp execute0(@NotEmpty String appId, @NotEmpty String secret) {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("grant_type", "client_credential");
         requestBody.put("appid", appId);
