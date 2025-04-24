@@ -3,5 +3,5 @@ export function setToken(token) {
 } 
 
 export function getToken() {
-	uni.getStorageSync("token")
+	return uni.getStorageSync("token")
 } 
