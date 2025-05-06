@@ -30,7 +30,7 @@ cd nginx/sbin
 
 # 系统服务
 
-/usr/systemd/system/nginx.service
+/etc/systemd/system/nginx.service
 
 ```shell
 [Unit]
