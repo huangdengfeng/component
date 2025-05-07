@@ -80,9 +80,9 @@ server {
 }
 
 server {
-    listen       443;
+    listen       443 ssl;
     server_name  admin.seezoon.com;
-    ssl on;
+    # ssl on; 新版不支持了，listen后添加ssl
     ssl_certificate   /data/cert/admin.seezoon.com.pem; 
     ssl_certificate_key  /data/cert/admin.seezoon.com.key;
     ssl_session_timeout 5m;
