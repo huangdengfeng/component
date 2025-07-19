@@ -56,7 +56,8 @@ CREATE USER 'backup_user'@'192.168.1.100' IDENTIFIED BY 'StrongPassword123!';
 
 # 允许从任意 IP 访问（存在风险，谨慎使用）
 CREATE USER 'backup_user'@'%' IDENTIFIED BY 'StrongPassword123!';
-
+# 授予所有权限
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'host' WITH GRANT OPTION;
 # 授予所有数据库的只读权限 + 锁表权限（适用于 mysqldump）
 GRANT SELECT, RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'backup_user'@'localhost';
 
@@ -71,7 +72,7 @@ FLUSH PRIVILEGES;
 https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html
 
 ```shell
-# 全部数据库
+# 全部数据库（包含库名）
 /usr/local/mysql/bin/mysqldump  -u用户名 -p密码 --all-databases > /保存路径/文件名.sql
 # 指定数据库，不加--databases || -B  则不带库名
 /usr/local/mysql/bin/mysqldump -u用户名 -p密码 --databases 数据库1 数据库2... > 保存路径/文件名.sql
