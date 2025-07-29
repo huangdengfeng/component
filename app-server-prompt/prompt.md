@@ -964,7 +964,7 @@ public class StudentController {
 
     @PostMapping("/update")
     @Operation(summary = "更新学生信息")
-    public Response<StudentCO> updateStudent(@Valid @RequestBody UpdateStudentCmd cmd) {
+    public Response<StudentCO> updateStudent(@RequestBody UpdateStudentCmd cmd) {
         return updateStudentCmdExe.execute(cmd);
     }
 

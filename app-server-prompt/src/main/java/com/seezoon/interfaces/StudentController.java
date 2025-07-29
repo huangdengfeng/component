@@ -13,7 +13,6 @@ import com.seezoon.infrastructure.dto.Page;
 import com.seezoon.infrastructure.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +43,7 @@ public class StudentController {
 
     @PostMapping("/update")
     @Operation(summary = "更新学生信息")
-    public Response<StudentCO> updateStudent(@Valid @RequestBody UpdateStudentCmd cmd) {
+    public Response<StudentCO> updateStudent(@RequestBody UpdateStudentCmd cmd) {
         return updateStudentCmdExe.execute(cmd);
     }
 
