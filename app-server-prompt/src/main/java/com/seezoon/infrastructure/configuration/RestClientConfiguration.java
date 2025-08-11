@@ -28,7 +28,7 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 @RequiredArgsConstructor
-public class RestTemplateConfiguration {
+public class RestClientConfiguration {
 
     private static final Timeout CONNECT_TIMEOUT = Timeout.ofSeconds(3);
     private static final Timeout SOCKET_TIMEOUT = Timeout.ofSeconds(10);
