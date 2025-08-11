@@ -41,6 +41,16 @@ public class StudentPageQryExe {
         List<StudentCO> data = new ArrayList<>();
         page.getList().forEach(item -> {
             StudentCO co = new StudentCO();
+            co.setId(item.getId());
+            co.setNo(item.getNo());
+            co.setName(item.getName());
+            co.setSex(item.getSex());
+            co.setIntroduce(item.getIntroduce());
+            co.setBirthday(item.getBirthday());
+            co.setMobile(item.getMobile());
+            co.setStatus(item.getStatus());
+            co.setCreateTime(item.getCreateTime());
+            co.setUpdateTime(item.getUpdateTime());
             data.add(co);
         });
         return Response.success(new Page<>(page.getTotal(), data));
