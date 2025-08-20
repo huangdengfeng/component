@@ -67,24 +67,14 @@ public class ModifyUserService {
             @NotNull Integer operator) {
         SysUserPO toUpdate = new SysUserPO();
         toUpdate.setUid(uid);
+        toUpdate.setSecretKey(UserSecretKeyGenerator.generate());
         toUpdate.setPassword(PasswordEncoder.encode(password));
         toUpdate.setUpdateUser(operator);
         toUpdate.setUpdateTime(LocalDateTime.now());
         int affectedRow = sysUserMapper.updateByPrimaryKeySelective(toUpdate);
         expectOneRow(affectedRow);
     }
-
-    public String modifySecretKey(@NotNull Integer uid, @NotNull Integer operator) {
-        SysUserPO toUpdate = new SysUserPO();
-        toUpdate.setUid(uid);
-        toUpdate.setUpdateUser(operator);
-        toUpdate.setSecretKey(UserSecretKeyGenerator.generate());
-        toUpdate.setUpdateTime(LocalDateTime.now());
-        int affectedRow = sysUserMapper.updateByPrimaryKeySelective(toUpdate);
-        expectOneRow(affectedRow);
-        return toUpdate.getSecretKey();
-
-    }
+    
 
     public void modifyPwd(@NotNull Integer uid, @NotEmpty String oldPassword, @NotEmpty String newPassword,
             @NotNull Integer operator) {

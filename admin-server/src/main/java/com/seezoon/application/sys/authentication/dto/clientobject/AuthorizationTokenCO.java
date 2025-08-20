@@ -20,9 +20,5 @@ public class AuthorizationTokenCO {
     private String accessToken;
     @Schema(title = "登录凭证过期(s)", description = "过期时间较短")
     private Long accessTokenExpiresIn;
-    @Schema(title = "刷新凭证", description = "调用refresh接口获取最新登录凭证")
-    private String refreshToken;
-    @Schema(title = "刷新凭证过期(s)", description = "过期时间较长")
-    private Long refreshTokenExpiresIn;
 
 }

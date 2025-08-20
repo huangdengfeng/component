@@ -36,7 +36,7 @@ public class RoleDetailQryExe {
     public Response<RoleDetailCO> execute(@Valid @NotNull RoleDetailQry qry) {
         SysRolePO po = sysRoleMapper.selectByPrimaryKey(qry.getRoleId());
         if (null == po) {
-            Response.error(ErrorCode.RECORD_NOT_EXISTS.code(), ErrorCode.RECORD_NOT_EXISTS.msg());
+           return Response.error(ErrorCode.RECORD_NOT_EXISTS.code(), ErrorCode.RECORD_NOT_EXISTS.msg());
         }
         RoleDetailCO co = new RoleDetailCO(po.getId(), po.getCode(), po.getName(), po.getStatus());
         // 查询角色下权限列表

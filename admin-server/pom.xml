@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
+        <version>3.5.4</version>
         <relativePath/>
     </parent>
     <groupId>com.seezoon</groupId>
     <artifactId>admin-server</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>admin-server</name>
     <description>project for admin system</description>
 
@@ -24,9 +24,9 @@
         <thumbnailator.version>0.4.20</thumbnailator.version>
         <commons-text.version>1.10.0</commons-text.version>
         <commons-io.version>2.8.0</commons-io.version>
-        <jwt.version>0.12.5</jwt.version>
+        <jwt.version>0.12.7</jwt.version>
         <mybatis-generator.version>1.4.2</mybatis-generator.version>
-        <springdoc.version>2.8.5</springdoc.version>
+        <springdoc.version>2.8.9</springdoc.version>
     </properties>
 
     <dependencies>

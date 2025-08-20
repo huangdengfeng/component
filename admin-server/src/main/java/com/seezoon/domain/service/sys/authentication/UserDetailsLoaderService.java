@@ -63,6 +63,7 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
         UserDetailsVO userDetails = null;
         try {
             userDetails = caches.get(userId, () -> this.getUserDetails0(userId));
+
         } catch (ExecutionException | UncheckedExecutionException e) {
             if (null != e.getCause()) {
                 throw e.getCause();
@@ -71,6 +72,10 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
         }
         if (null == userDetails) {
             return null;
+        }
+
+        if (!loginTokenService.validateCheckSum(tokenInfo, userDetails.getUserSecretKey())) {
+            log.error("uid %d access token check failed", userId);
         }
         return userDetails;
     }
@@ -97,7 +102,8 @@ public class UserDetailsLoaderService implements UserDetailsLoader {
         for (String permission : permissions) {
             authorities.add(new UserGrantedAuthority(permission, false));
         }
-        UserDetailsVO userDetails = new UserDetailsVO(sysUserPO.getUserName(), userId, authorities);
+        UserDetailsVO userDetails = new UserDetailsVO(sysUserPO.getUserName(), userId, sysUserPO.getSecretKey(),
+                authorities);
         return userDetails;
     }
 

@@ -15,12 +15,14 @@ public class UserDetailsVO implements UserDetails {
 
     private final String username;
     private final Integer userId;
+    private final String userSecretKey;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsVO(String username, Integer userId,
+    public UserDetailsVO(String username, Integer userId, String userSecretKey,
             Collection<? extends GrantedAuthority> authorities) {
         this.username = Objects.requireNonNull(username);
         this.userId = Objects.requireNonNull(userId);
+        this.userSecretKey = Objects.requireNonNull(userSecretKey);
         this.authorities = Objects.requireNonNull(authorities);
     }
 
@@ -61,5 +63,9 @@ public class UserDetailsVO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getUserSecretKey() {
+        return userSecretKey;
     }
 }

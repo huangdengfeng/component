@@ -39,7 +39,7 @@ public class ModifyUserCmdExe {
         vo.setPhoto(cmd.getPhoto());
         vo.setRemark(cmd.getRemark());
         vo.setRoleIds(cmd.getRoleIds());
-        modifyUserService.modify(vo, userId);
+        modifyUserService.modify(vo, SecurityContext.getUserId());
         return Response.success();
     }
 }

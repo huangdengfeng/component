@@ -7,7 +7,9 @@ import com.seezoon.infrastructure.configuration.properties.LoginProperties;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
+import java.util.Map;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -18,28 +20,26 @@ import org.springframework.validation.annotation.Validated;
  * @author huangdengfeng
  * @date 2023/9/8 16:27
  */
+@Slf4j
 @Component
 @Validated
 public class LoginTokenService {
 
+    private static final String CHECK_SUM_KEY = "checkSum";
+
     private final JwtToken jwtToken;
     private final Duration accessTokenExpireIn;
-    private final Duration refreshTokenExpireIn;
 
     public LoginTokenService(AppProperties appProperties) {
         LoginProperties loginProperties = appProperties.getLogin();
         this.jwtToken = new JwtToken(loginProperties.getTokenSignKey());
         accessTokenExpireIn = loginProperties.getAccessTokenExpireIn();
-        refreshTokenExpireIn = loginProperties.getRefreshTokenExpireIn();
     }
 
     public Duration getAccessTokenExpireIn() {
         return accessTokenExpireIn;
     }
 
-    public Duration getRefreshTokenExpireIn() {
-        return refreshTokenExpireIn;
-    }
 
     /**
      * 为用户创建登录token
@@ -47,25 +47,12 @@ public class LoginTokenService {
      * @param userId
      * @return not null
      */
-    public String createAccessToken(@NotNull Integer userId) {
+    public String createAccessToken(@NotNull Integer userId, @NotEmpty String userSecretKey) {
         String subject = String.valueOf(userId);
-        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, null);
+        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, jwtToken.generateTokenId(),
+                Map.of(CHECK_SUM_KEY, genCheckSum(subject, userSecretKey)));
         String accessToken = jwtToken.create(tokenInfoVO, accessTokenExpireIn);
         return accessToken;
-    }
-
-    /**
-     * 为用户创建refresh token
-     *
-     * @param userId
-     * @param userSecretKey
-     * @return not null
-     */
-    public String createRefreshToken(@NotNull Integer userId, @NotEmpty String userSecretKey) {
-        String subject = String.valueOf(userId);
-        TokenInfoVO tokenInfoVO = new TokenInfoVO(subject, null, genCheckSum(subject, userSecretKey));
-        String refreshToken = jwtToken.create(tokenInfoVO, refreshTokenExpireIn);
-        return refreshToken;
     }
 
     /**
@@ -83,9 +70,9 @@ public class LoginTokenService {
         return DigestUtils.sha256Hex(subject + userSecretKey);
     }
 
-    public boolean validateCheckSum(@NotEmpty String checkSum, @NotEmpty String subject,
-            @NotEmpty String userSecretKey) {
-        return Objects.equals(checkSum, genCheckSum(subject, userSecretKey));
+    public boolean validateCheckSum(@NotNull TokenInfoVO tokenInfoVO, @NotEmpty String userSecretKey) {
+        return Objects.equals(tokenInfoVO.getClaims().get(CHECK_SUM_KEY),
+                genCheckSum(tokenInfoVO.getSubject(), userSecretKey));
     }
 
 }

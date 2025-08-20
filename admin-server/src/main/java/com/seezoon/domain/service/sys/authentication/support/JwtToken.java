@@ -4,7 +4,6 @@ import com.seezoon.domain.service.sys.authentication.valueobj.TokenInfoVO;
 import com.seezoon.infrastructure.exception.Assertion;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +16,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
@@ -34,12 +34,16 @@ import org.springframework.util.Assert;
 @Slf4j
 public class JwtToken {
 
-    private static final String CHECK_SUM_KEY = "checkSum";
     private final Key signKey;
+
 
     public JwtToken(String signKey) {
         Assertion.isTrue(StringUtils.isNotEmpty(signKey), "sign key must not empty");
         this.signKey = Keys.hmacShaKeyFor(signKey.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateTokenId() {
+        return UUID.randomUUID().toString();
     }
 
     /**
@@ -65,13 +69,11 @@ public class JwtToken {
         Assert.notNull(expiration, "expiration must not null");
         Instant expirationInstant = expiration.atZone(ZoneId.systemDefault()).toInstant();
         String result = Jwts.builder()
-                .claims()
+                .expiration(Date.from(expirationInstant))
                 .subject(tokenInfoVO.getSubject())
                 .id(tokenInfoVO.getTokenId())
-                .setExpiration(Date.from(expirationInstant))
-                // 自定义字段
-                .add(CHECK_SUM_KEY, tokenInfoVO.getCheckSum())
-                .and().signWith(SignatureAlgorithm.HS256, signKey).compact();
+                .claims(tokenInfoVO.getClaims())
+                .signWith(SignatureAlgorithm.HS256, signKey).compact();
         return result;
     }
 
@@ -97,7 +99,6 @@ public class JwtToken {
         if (null == body) {
             return null;
         }
-
-        return new TokenInfoVO(body.getSubject(), body.getId(), body.get(CHECK_SUM_KEY, String.class));
+        return new TokenInfoVO(body.getSubject(), body.getId(), body);
     }
 }

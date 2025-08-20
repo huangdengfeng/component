@@ -1,7 +1,9 @@
 package com.seezoon.domain.service.sys.authentication.valueobj;
 
+import com.seezoon.infrastructure.exception.Assertion;
+import java.util.Collections;
+import java.util.Map;
 import lombok.Getter;
-import org.springframework.util.Assert;
 
 /**
  * token 业务字段
@@ -17,22 +19,25 @@ public class TokenInfoVO {
      */
     private String subject;
     /**
-     * 用于安全控制，可空
+     * 用于安全控制
      */
     private String tokenId;
     /**
-     * 验证码，可空，因为jwt 内容没有加密，如果泄露的服务器签名密钥，可以任意伪造，该字段提高伪造难度
+     * 扩展字段
      */
-    private String checkSum;
+    private Map<String, Object> claims;
 
     public TokenInfoVO(String subject, String tokenId) {
-        Assert.hasText(subject, "subject must not empty");
-        this.subject = subject;
-        this.tokenId = tokenId;
+        this(subject, tokenId, Collections.emptyMap());
     }
 
-    public TokenInfoVO(String subject, String tokenId, String checkSum) {
-        this(subject, tokenId);
-        this.checkSum = checkSum;
+    public TokenInfoVO(String subject, String tokenId, Map<String, Object> claims) {
+        Assertion.notEmpty(subject, "subject must not empty");
+        Assertion.notEmpty(subject, "tokenId must not empty");
+        Assertion.notNull(claims, "claims must not null");
+        this.subject = subject;
+        this.tokenId = tokenId;
+        this.claims = claims;
     }
+
 }

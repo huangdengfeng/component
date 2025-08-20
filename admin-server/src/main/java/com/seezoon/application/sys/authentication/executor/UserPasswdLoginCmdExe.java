@@ -51,15 +51,10 @@ public class UserPasswdLoginCmdExe {
         }
         // 登录后重置用户安全Key
         Integer uid = sysUserPO.getUid();
-        String secretKey = modifyUserService.modifySecretKey(uid, uid);
-
-        String accessToken = loginTokenService.createAccessToken(uid);
-        String refreshToken = loginTokenService.createRefreshToken(uid, secretKey);
+        String accessToken = loginTokenService.createAccessToken(uid, sysUserPO.getSecretKey());
         AuthorizationTokenCO co = new AuthorizationTokenCO();
         co.setAccessToken(accessToken);
-        co.setRefreshToken(refreshToken);
         co.setAccessTokenExpiresIn(loginTokenService.getAccessTokenExpireIn().toSeconds());
-        co.setRefreshTokenExpiresIn(loginTokenService.getRefreshTokenExpireIn().toSeconds());
         return Response.success(co);
     }
 }

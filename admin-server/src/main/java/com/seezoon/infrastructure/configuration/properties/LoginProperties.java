@@ -24,12 +24,6 @@ public class LoginProperties {
     @NotNull
     private Duration accessTokenExpireIn = Duration.ofHours(2);
     /**
-     * 刷新token，有效期
-     * <p>spring boot 可配置7d</p>
-     */
-    @NotNull
-    private Duration refreshTokenExpireIn = Duration.ofDays(7);
-    /**
      * token 签名密钥
      */
     @NotEmpty
