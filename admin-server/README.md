@@ -17,7 +17,7 @@
 
 ## 技术选型
 
-**Seezoon Stack** 采用当下最前沿前后端的技术栈完成。
+**Admin Server** 采用当下最前沿前后端的技术栈完成。
 
 后台**主要**框架：
 
@@ -26,11 +26,11 @@
 | Spring Boot3    | https://spring.io/projects/spring-boot      | 自动装配         |
 | Spring Security | https://spring.io/projects/spring-security  | 登录及权限控制      |
 | Mybatis         | https://mybatis.org/mybatis-3/zh/index.html | 持久层          |
-| Springfox       | https://github.com/springfox/springfox      | openAPI 3 文档 |
+| SpringDoc       | https://springdoc.org/#getting-started      | openAPI 3 文档 |
 
 ## 环境准备
 
-- JDK 1.8 + （建议17）
+- JDK 21
 - Maven 3 +
 - Node 12 +
 - Yarn（安装完node，可用`npm install -g yarn`）
