@@ -53,6 +53,7 @@ CREATE USER 'backup_user'@'localhost' IDENTIFIED BY 'StrongPassword123!';
 
 # 允许从特定 IP 访问（如备份服务器）
 CREATE USER 'backup_user'@'192.168.1.100' IDENTIFIED BY 'StrongPassword123!';
+DROP USER 'backup_user'@'192.168.1.100';
 
 # 允许从任意 IP 访问（存在风险，谨慎使用）
 CREATE USER 'backup_user'@'%' IDENTIFIED BY 'StrongPassword123!';
@@ -130,9 +131,9 @@ WantedBy=multi-user.target
 systemctl enable mysql
 # 查看是否开启
 systemctl is-enabled mysql
-# 修改系统服务文件后一定要
+# 修改系统服务文件后一般要，可选实际测试也不需要
 systemctl daemon-reload
-sudo systemctl start|stop|status mysql
+sudo systemctl start|stop|status|restart mysql
 ```
 
 # 通过binlog 看sql
