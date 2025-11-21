@@ -10,19 +10,19 @@ import lombok.Setter;
 public class StudentInfoPO {
 
     /**
-     * 学生ID
+     * 学生ID NOT NULL
      */
     private Integer id;
     /**
-     * 学号
+     * 学号  NOT NULL
      */
     private String no;
     /**
-     * 姓名
+     * 姓名  NOT NULL
      */
     private String name;
     /**
-     * 性别：1、男；2、女
+     * 性别：1、男；2、女 NOT NULL
      */
     private Byte sex;
     /**
@@ -38,15 +38,15 @@ public class StudentInfoPO {
      */
     private String mobile;
     /**
-     * 状态：1、有效；2、无效；
+     * 状态：1、有效；2、无效；  NOT NULL
      */
     private Byte status;
     /**
-     * 创建时间
+     * 创建时间  NOT NULL
      */
     private LocalDateTime createTime;
     /**
-     * 更新时间
+     * 更新时间  NOT NULL
      */
     private LocalDateTime updateTime;
 
