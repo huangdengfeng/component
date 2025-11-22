@@ -591,6 +591,29 @@ public class StudentPageQry extends PageQuery {
 }
 ```
 
+`src/main/java/com/seezoon/application/student/dto/StudentQry.java`
+
+```java
+package com.seezoon.application.student.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 查询学生信息
+ */
+@Getter
+@Setter
+public class StudentQry {
+
+    @Schema(description = "学生ID")
+    @NotNull
+    private Integer id;
+}
+```
+
 `src/main/java/com/seezoon/application/student/dto/UpdateStudentCmd.java`
 
 ```java
@@ -850,6 +873,60 @@ public class StudentPageQryExe {
 } 
 ```
 
+`src/main/java/com/seezoon/application/student/executor/StudentQryExe.java`
+
+```java
+package com.seezoon.application.student.executor;
+
+import com.seezoon.application.student.dto.StudentQry;
+import com.seezoon.application.student.dto.clientobject.StudentCO;
+import com.seezoon.domain.dao.mapper.StudentInfoMapper;
+import com.seezoon.domain.dao.po.StudentInfoPO;
+import com.seezoon.infrastructure.dto.Response;
+import com.seezoon.infrastructure.error.ErrorCode;
+import com.seezoon.infrastructure.exception.ExceptionFactory;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+
+/**
+ * 查询学生信息
+ */
+@RequiredArgsConstructor
+@Slf4j
+@Component
+@Validated
+public class StudentQryExe {
+
+    private final StudentInfoMapper studentInfoMapper;
+
+    public Response<StudentCO> execute(@Valid @NotNull StudentQry qry) {
+        StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(qry.getId());
+        if (po == null) {
+            log.error("student not exists id:{}", qry.getId());
+            throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);
+        }
+        
+        StudentCO co = new StudentCO();
+        co.setId(po.getId());
+        co.setNo(po.getNo());
+        co.setName(po.getName());
+        co.setSex(po.getSex());
+        co.setIntroduce(po.getIntroduce());
+        co.setBirthday(po.getBirthday());
+        co.setMobile(po.getMobile());
+        co.setStatus(po.getStatus());
+        co.setCreateTime(po.getCreateTime());
+        co.setUpdateTime(po.getUpdateTime());
+        
+        return Response.success(co);
+    }
+}
+```
+
 `src/main/java/com/seezoon/application/student/executor/UpdateStudentCmdExe.java`
 
 ```java
@@ -903,11 +980,13 @@ package com.seezoon.interfaces;
 import com.seezoon.application.student.dto.CreateStudentCmd;
 import com.seezoon.application.student.dto.DeleteStudentCmd;
 import com.seezoon.application.student.dto.StudentPageQry;
+import com.seezoon.application.student.dto.StudentQry;
 import com.seezoon.application.student.dto.UpdateStudentCmd;
 import com.seezoon.application.student.dto.clientobject.StudentCO;
 import com.seezoon.application.student.executor.CreateStudentCmdExe;
 import com.seezoon.application.student.executor.DeleteStudentCmdExe;
 import com.seezoon.application.student.executor.StudentPageQryExe;
+import com.seezoon.application.student.executor.StudentQryExe;
 import com.seezoon.application.student.executor.UpdateStudentCmdExe;
 import com.seezoon.infrastructure.dto.Page;
 import com.seezoon.infrastructure.dto.Response;
@@ -935,6 +1014,7 @@ public class StudentController {
     private final UpdateStudentCmdExe updateStudentCmdExe;
     private final DeleteStudentCmdExe deleteStudentCmdExe;
     private final StudentPageQryExe studentPageQryExe;
+    private final StudentQryExe studentQryExe;
 
     @PostMapping("/create")
     @Operation(summary = "创建学生信息")
@@ -958,6 +1038,12 @@ public class StudentController {
     @Operation(summary = "获取学生信息")
     public Response<Page<StudentCO>> studentPage(@RequestBody StudentPageQry qry) {
         return studentPageQryExe.execute(qry);
+    }
+
+    @PostMapping("/get")
+    @Operation(summary = "查询单个学生信息")
+    public Response<StudentCO> getStudent(@RequestBody StudentQry qry) {
+        return studentQryExe.execute(qry);
     }
 } 
 ```
