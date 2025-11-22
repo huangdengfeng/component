@@ -591,7 +591,7 @@ public class StudentPageQry extends PageQuery {
 }
 ```
 
-`src/main/java/com/seezoon/application/student/dto/StudentQry.java`
+`src/main/java/com/seezoon/application/student/dto/StudentDetailQry.java`
 
 ```java
 package com.seezoon.application.student.dto;
@@ -602,11 +602,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 查询学生信息
+ * 查询学生详细信息
  */
 @Getter
 @Setter
-public class StudentQry {
+public class StudentDetailQry {
 
     @Schema(description = "学生ID")
     @NotNull
@@ -672,7 +672,9 @@ public class UpdateStudentCmd {
 ```
 
 **CO 类:**
-`src/main/java/com/seezoon/application/student/dto/clientobject/StudentCO.java`
+`src/main/java/com/seezoon/application/student/dto/clientobject/StudentCO.java`（用于分页查询）
+
+`src/main/java/com/seezoon/application/student/dto/clientobject/StudentDetailCO.java`（用于详情查询）
 
 ```java
 package com.seezoon.application.student.dto.clientobject;
@@ -729,6 +731,63 @@ public class StudentCO {
     @Schema(title = "更新时间")
     private LocalDateTime updateTime;
 } 
+```
+
+```java
+package com.seezoon.application.student.dto.clientobject;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.seezoon.infrastructure.constants.Constants;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * 学生详细信息客户端对象
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class StudentDetailCO {
+
+    @Schema(title = "学生ID")
+    private Integer id;
+
+    @Schema(title = "学号")
+    private String no;
+
+    @Schema(title = "姓名")
+    private String name;
+
+    @Schema(title = "性别：1、男；2、女")
+    private Byte sex;
+
+    @Schema(title = "介绍")
+    private String introduce;
+
+    @Schema(title = "生日")
+    @JsonFormat(pattern = Constants.DATE_PATTERN)
+    private LocalDate birthday;
+
+    @Schema(title = "手机号")
+    private String mobile;
+
+    @Schema(title = "状态：1、有效；2、无效")
+    private Byte status;
+
+    @Schema(title = "创建时间")
+    @JsonFormat(pattern = Constants.DATETIME_PATTERN)
+    private LocalDateTime createTime;
+
+    @JsonFormat(pattern = Constants.DATETIME_PATTERN)
+    @Schema(title = "更新时间")
+    private LocalDateTime updateTime;
+}
 ```
 
 **执行器**
@@ -873,13 +932,13 @@ public class StudentPageQryExe {
 } 
 ```
 
-`src/main/java/com/seezoon/application/student/executor/StudentQryExe.java`
+`src/main/java/com/seezoon/application/student/executor/StudentDetailQryExe.java`
 
 ```java
 package com.seezoon.application.student.executor;
 
-import com.seezoon.application.student.dto.StudentQry;
-import com.seezoon.application.student.dto.clientobject.StudentCO;
+import com.seezoon.application.student.dto.StudentDetailQry;
+import com.seezoon.application.student.dto.clientobject.StudentDetailCO;
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
 import com.seezoon.infrastructure.dto.Response;
@@ -893,24 +952,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 查询学生信息
+ * 查询学生详细信息
  */
 @RequiredArgsConstructor
 @Slf4j
 @Component
 @Validated
-public class StudentQryExe {
+public class StudentDetailQryExe {
 
     private final StudentInfoMapper studentInfoMapper;
 
-    public Response<StudentCO> execute(@Valid @NotNull StudentQry qry) {
+    public Response<StudentDetailCO> execute(@Valid @NotNull StudentDetailQry qry) {
         StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(qry.getId());
         if (po == null) {
             log.error("student not exists id:{}", qry.getId());
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);
         }
         
-        StudentCO co = new StudentCO();
+        StudentDetailCO co = new StudentDetailCO();
         co.setId(po.getId());
         co.setNo(po.getNo());
         co.setName(po.getName());
@@ -979,14 +1038,15 @@ package com.seezoon.interfaces;
 
 import com.seezoon.application.student.dto.CreateStudentCmd;
 import com.seezoon.application.student.dto.DeleteStudentCmd;
+import com.seezoon.application.student.dto.StudentDetailQry;
 import com.seezoon.application.student.dto.StudentPageQry;
-import com.seezoon.application.student.dto.StudentQry;
 import com.seezoon.application.student.dto.UpdateStudentCmd;
 import com.seezoon.application.student.dto.clientobject.StudentCO;
+import com.seezoon.application.student.dto.clientobject.StudentDetailCO;
 import com.seezoon.application.student.executor.CreateStudentCmdExe;
 import com.seezoon.application.student.executor.DeleteStudentCmdExe;
+import com.seezoon.application.student.executor.StudentDetailQryExe;
 import com.seezoon.application.student.executor.StudentPageQryExe;
-import com.seezoon.application.student.executor.StudentQryExe;
 import com.seezoon.application.student.executor.UpdateStudentCmdExe;
 import com.seezoon.infrastructure.dto.Page;
 import com.seezoon.infrastructure.dto.Response;
@@ -1014,7 +1074,7 @@ public class StudentController {
     private final UpdateStudentCmdExe updateStudentCmdExe;
     private final DeleteStudentCmdExe deleteStudentCmdExe;
     private final StudentPageQryExe studentPageQryExe;
-    private final StudentQryExe studentQryExe;
+    private final StudentDetailQryExe studentDetailQryExe;
 
     @PostMapping("/create")
     @Operation(summary = "创建学生信息")
@@ -1040,10 +1100,10 @@ public class StudentController {
         return studentPageQryExe.execute(qry);
     }
 
-    @PostMapping("/get")
-    @Operation(summary = "查询单个学生信息")
-    public Response<StudentCO> getStudent(@RequestBody StudentQry qry) {
-        return studentQryExe.execute(qry);
+    @PostMapping("/detail")
+    @Operation(summary = "查询学生详细信息")
+    public Response<StudentDetailCO> getStudentDetail(@RequestBody StudentDetailQry qry) {
+        return studentDetailQryExe.execute(qry);
     }
 } 
 ```
