@@ -19,37 +19,37 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StudentDetailCO {
 
-    @Schema(title = "学生ID")
+    @Schema(description = "学生ID")
     private Integer id;
 
-    @Schema(title = "学号")
+    @Schema(description = "学号")
     private String no;
 
-    @Schema(title = "姓名")
+    @Schema(description = "姓名")
     private String name;
 
-    @Schema(title = "性别：1、男；2、女")
+    @Schema(description = "性别：1、男；2、女")
     private Byte sex;
 
-    @Schema(title = "介绍")
+    @Schema(description = "介绍")
     private String introduce;
 
-    @Schema(title = "生日")
+    @Schema(description = "生日")
     @JsonFormat(pattern = Constants.DATE_PATTERN)
     private LocalDate birthday;
 
-    @Schema(title = "手机号")
+    @Schema(description = "手机号")
     private String mobile;
 
-    @Schema(title = "状态：1、有效；2、无效")
+    @Schema(description = "状态：1、有效；2、无效")
     private Byte status;
 
-    @Schema(title = "创建时间")
+    @Schema(description = "创建时间")
     @JsonFormat(pattern = Constants.DATETIME_PATTERN)
     private LocalDateTime createTime;
 
     @JsonFormat(pattern = Constants.DATETIME_PATTERN)
-    @Schema(title = "更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 }
 
