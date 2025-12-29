@@ -12,6 +12,8 @@ public interface StudentInfoMapper {
 
     StudentInfoPO selectByPrimaryKey(Integer id);
 
+    StudentInfoPO selectByPrimaryKeyForUpdate(Integer id);
+
     List<StudentInfoPO> selectByCondition(Condition condition);
 
     /**

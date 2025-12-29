@@ -63,6 +63,8 @@ public class StudentInfoPO {
     private String name;
     /**
      * 性别：1、男；2、女 NOT NULL
+     *
+     * @see com.seezoon.domain.dao.types.StudentInfoSex
      */
     private Byte sex;
     /**
@@ -79,7 +81,10 @@ public class StudentInfoPO {
     private String mobile;
     /**
      * 状态：1、有效；2、无效；  NOT NULL
+     *
+     * @see com.seezoon.domain.dao.types.DbRecordStatus
      */
+
     private Byte status;
     /**
      * 创建时间  NOT NULL
@@ -123,6 +128,89 @@ public class StudentInfoPO {
 }
 ```
 
+**DB字段数据字典** `src/main/java/com/seezoon/domain/dao/types/StudentInfoSex.java`
+
+```java
+package com.seezoon.domain.dao.types;
+
+import java.util.Arrays;
+import java.util.Objects;
+import lombok.Getter;
+
+@Getter
+public enum StudentInfoSex {
+    MALE((byte) 1, "男"),
+    FEMALE((byte) 2, "女"),
+    ;
+
+    private byte code;
+    private String name;
+
+    StudentInfoSex(byte code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public static boolean isMale(Byte code) {
+        return Objects.equals(MALE.code, code);
+    }
+
+    public static boolean isFemale(Byte code) {
+        return Objects.equals(FEMALE.code, code);
+    }
+
+    public static void check(Byte code) {
+        boolean match = Arrays.stream(StudentInfoSex.values())
+                .anyMatch(item -> Objects.equals(item.code, code));
+        if (!match) {
+            throw new IllegalArgumentException("student info sex code invalid:" + code);
+        }
+    }
+}
+```
+
+`src/main/java/com/seezoon/domain/dao/types/DbRecordStatus.java`
+
+```java
+package com.seezoon.domain.dao.types;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+
+public enum DbRecordStatus {
+
+    VALID((byte) 1, "有效"),
+    INVALID((byte) 2, "无效"),
+    ;
+
+    private byte code;
+    private String name;
+
+    DbRecordStatus(byte code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public static boolean isValid(Byte code) {
+        return Objects.equals(VALID.code, code);
+    }
+
+    public static boolean isInvalid(Byte code) {
+        return Objects.equals(INVALID.code, code);
+    }
+
+    public static void check(Byte code) {
+        boolean match = Arrays.stream(DbRecordStatus.values())
+                .anyMatch(item -> Objects.equals(item.code, code));
+        if (!match) {
+            throw new IllegalArgumentException("db record status code invalid:" + code);
+        }
+    }
+}
+
+```
+
 **Mapper接口:** `src/main/java/com/seezoon/domain/dao/mapper/StudentInfoMapper.java`
 
 ```java
@@ -139,6 +227,8 @@ public interface StudentInfoMapper {
     int insert(StudentInfoPO row);
 
     StudentInfoPO selectByPrimaryKey(Integer id);
+
+    StudentInfoPO selectByPrimaryKeyForUpdate(Integer id);
 
     List<StudentInfoPO> selectByCondition(Condition condition);
 
@@ -182,6 +272,13 @@ public interface StudentInfoMapper {
         <include refid="Base_Column_List"/>
         from student_info
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPrimaryKeyForUpdate" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student_info
+        where id = #{id,jdbcType=INTEGER} for update
     </select>
 
 
@@ -321,7 +418,7 @@ public class StudentVO {
     /**
      * 性别
      *
-     * @see StudentSexVO
+     * @see com.seezoon.domain.dao.types.StudentInfoSex
      */
     @NotNull
     private Byte sex;
@@ -343,33 +440,10 @@ public class StudentVO {
     /**
      * 状态
      *
-     * @see com.seezoon.infrastructure.constants.DbRecordStatus
+     * @see com.seezoon.domain.dao.types.DbRecordStatus
      */
     @NotNull
     private Byte status;
-}
-```
-
-```java
-package com.seezoon.domain.service.student.vo;
-
-import com.seezoon.infrastructure.exception.Assertion;
-
-public class StudentSexVO {
-
-    /**
-     * 男性
-     */
-    public static final Byte SEX_MALE = 1;
-    /**
-     * 女性
-     */
-    public static final Byte SEX_FEMALE = 2;
-
-    public static void check(Byte code) {
-        Assertion.isTrue(SEX_MALE == code || SEX_FEMALE == code,
-                "student sex code is invalid: " + code);
-    }
 }
 ```
 
@@ -380,7 +454,7 @@ package com.seezoon.domain.service.student;
 
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
-import com.seezoon.domain.service.student.vo.StudentSexVO;
+import com.seezoon.domain.dao.types.StudentInfoSex;
 import com.seezoon.domain.service.student.vo.StudentVO;
 import com.seezoon.infrastructure.error.ErrorCode;
 import com.seezoon.infrastructure.exception.Assertion;
@@ -410,7 +484,7 @@ public class StudentService {
      */
     @Transactional
     public Integer createStudent(@Valid @NotNull StudentVO vo) {
-        StudentSexVO.check(vo.getSex());
+        StudentInfoSex.check(vo.getSex());
         // 检查学号是否已存在
         StudentInfoPO existingStudent = studentInfoMapper.selectByNo(vo.getNo());
         if (existingStudent != null) {
@@ -439,9 +513,9 @@ public class StudentService {
      */
     @Transactional
     public void updateStudent(@Valid @NotNull StudentVO vo) {
-        StudentSexVO.check(vo.getSex());
+        StudentInfoSex.check(vo.getSex());
         Assertion.notNull(vo.getId(), "student id is null");
-        StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(vo.getId());
+        StudentInfoPO po = studentInfoMapper.selectByPrimaryKeyForUpdate(vo.getId());
         if (po == null) {
             log.error("student not exists id:{}", vo.getId());
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);
@@ -470,7 +544,7 @@ public class StudentService {
      */
     @Transactional
     public void deleteStudent(@NotNull Integer id) {
-        StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(id);
+        StudentInfoPO po = studentInfoMapper.selectByPrimaryKeyForUpdate(id);
         if (po == null) {
             log.error("student not exists，id:{}", id);
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);

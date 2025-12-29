@@ -2,7 +2,7 @@ package com.seezoon.domain.service.student;
 
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
-import com.seezoon.domain.service.student.vo.StudentSexVO;
+import com.seezoon.domain.dao.types.StudentInfoSex;
 import com.seezoon.domain.service.student.vo.StudentVO;
 import com.seezoon.infrastructure.error.ErrorCode;
 import com.seezoon.infrastructure.exception.Assertion;
@@ -32,7 +32,7 @@ public class StudentService {
      */
     @Transactional
     public Integer createStudent(@Valid @NotNull StudentVO vo) {
-        StudentSexVO.check(vo.getSex());
+        StudentInfoSex.check(vo.getSex());
         // 检查学号是否已存在
         StudentInfoPO existingStudent = studentInfoMapper.selectByNo(vo.getNo());
         if (existingStudent != null) {
@@ -61,9 +61,9 @@ public class StudentService {
      */
     @Transactional
     public void updateStudent(@Valid @NotNull StudentVO vo) {
-        StudentSexVO.check(vo.getSex());
+        StudentInfoSex.check(vo.getSex());
         Assertion.notNull(vo.getId(), "student id is null");
-        StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(vo.getId());
+        StudentInfoPO po = studentInfoMapper.selectByPrimaryKeyForUpdate(vo.getId());
         if (po == null) {
             log.error("student not exists id:{}", vo.getId());
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);
@@ -92,7 +92,7 @@ public class StudentService {
      */
     @Transactional
     public void deleteStudent(@NotNull Integer id) {
-        StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(id);
+        StudentInfoPO po = studentInfoMapper.selectByPrimaryKeyForUpdate(id);
         if (po == null) {
             log.error("student not exists，id:{}", id);
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);

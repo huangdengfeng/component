@@ -23,6 +23,8 @@ public class StudentInfoPO {
     private String name;
     /**
      * 性别：1、男；2、女 NOT NULL
+     *
+     * @see com.seezoon.domain.dao.types.StudentInfoSex
      */
     private Byte sex;
     /**
@@ -39,7 +41,10 @@ public class StudentInfoPO {
     private String mobile;
     /**
      * 状态：1、有效；2、无效；  NOT NULL
+     *
+     * @see com.seezoon.domain.dao.types.DbRecordStatus
      */
+
     private Byte status;
     /**
      * 创建时间  NOT NULL

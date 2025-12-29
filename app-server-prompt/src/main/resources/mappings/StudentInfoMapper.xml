@@ -24,6 +24,12 @@
     from student_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+ <select id="selectByPrimaryKeyForUpdate" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student_info
+    where id = #{id,jdbcType=INTEGER} for update
+  </select>
 
 
 
