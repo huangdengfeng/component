@@ -3,7 +3,6 @@ package com.seezoon.application.student.executor;
 import com.seezoon.application.student.dto.UpdateStudentCmd;
 import com.seezoon.domain.service.student.StudentService;
 import com.seezoon.domain.service.student.vo.StudentVO;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class UpdateStudentCmdExe {
 
     private final StudentService studentService;
 
-    public Response execute(@Valid @NotNull UpdateStudentCmd cmd) {
+    public void execute(@Valid @NotNull UpdateStudentCmd cmd) {
         StudentVO vo = new StudentVO();
         vo.setId(cmd.getId());
         vo.setNo(cmd.getNo());
@@ -33,6 +32,5 @@ public class UpdateStudentCmdExe {
         vo.setMobile(cmd.getMobile());
         vo.setStatus(cmd.getStatus());
         studentService.updateStudent(vo);
-        return Response.success();
     }
 } 

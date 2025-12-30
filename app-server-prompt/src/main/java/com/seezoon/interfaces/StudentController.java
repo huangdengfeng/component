@@ -13,7 +13,6 @@ import com.seezoon.application.student.executor.StudentDetailQryExe;
 import com.seezoon.application.student.executor.StudentPageQryExe;
 import com.seezoon.application.student.executor.UpdateStudentCmdExe;
 import com.seezoon.infrastructure.dto.Page;
-import com.seezoon.infrastructure.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -41,31 +40,31 @@ public class StudentController {
 
     @PostMapping("/create")
     @Operation(summary = "创建学生信息")
-    public Response<StudentCO> createStudent(@RequestBody CreateStudentCmd cmd) {
-        return createStudentCmdExe.execute(cmd);
+    public void createStudent(@RequestBody CreateStudentCmd cmd) {
+        createStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新学生信息")
-    public Response<StudentCO> updateStudent(@RequestBody UpdateStudentCmd cmd) {
-        return updateStudentCmdExe.execute(cmd);
+    public void updateStudent(@RequestBody UpdateStudentCmd cmd) {
+        updateStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/delete")
     @Operation(summary = "删除学生信息")
-    public Response<Void> deleteStudent(@RequestBody DeleteStudentCmd cmd) {
-        return deleteStudentCmdExe.execute(cmd);
+    public void deleteStudent(@RequestBody DeleteStudentCmd cmd) {
+        deleteStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/page")
     @Operation(summary = "获取学生信息")
-    public Response<Page<StudentCO>> studentPage(@RequestBody StudentPageQry qry) {
+    public Page<StudentCO> studentPage(@RequestBody StudentPageQry qry) {
         return studentPageQryExe.execute(qry);
     }
 
     @PostMapping("/detail")
     @Operation(summary = "查询学生详细信息")
-    public Response<StudentDetailCO> getStudentDetail(@RequestBody StudentDetailQry qry) {
+    public StudentDetailCO getStudentDetail(@RequestBody StudentDetailQry qry) {
         return studentDetailQryExe.execute(qry);
     }
 } 

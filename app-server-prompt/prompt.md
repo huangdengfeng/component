@@ -874,7 +874,6 @@ import com.seezoon.application.student.dto.CreateStudentCmd;
 import com.seezoon.domain.service.student.StudentService;
 import com.seezoon.domain.service.student.vo.StudentVO;
 import com.seezoon.infrastructure.constants.DbRecordStatus;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -893,7 +892,7 @@ public class CreateStudentCmdExe {
 
     private final StudentService studentService;
 
-    public Response execute(@Valid @NotNull CreateStudentCmd cmd) {
+    public void execute(@Valid @NotNull CreateStudentCmd cmd) {
         StudentVO vo = new StudentVO();
         vo.setNo(cmd.getNo());
         vo.setName(cmd.getName());
@@ -905,7 +904,6 @@ public class CreateStudentCmdExe {
 
         Integer id = studentService.createStudent(vo);
         log.info("create student success id:{}", id);
-        return Response.success();
     }
 } 
 ```
@@ -917,7 +915,6 @@ package com.seezoon.application.student.executor;
 
 import com.seezoon.application.student.dto.DeleteStudentCmd;
 import com.seezoon.domain.service.student.StudentService;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -936,9 +933,8 @@ public class DeleteStudentCmdExe {
 
     private final StudentService studentService;
 
-    public Response<Void> execute(@Valid @NotNull DeleteStudentCmd cmd) {
+    public void execute(@Valid @NotNull DeleteStudentCmd cmd) {
         studentService.deleteStudent(cmd.getId());
-        return Response.success();
     }
 } 
 ```
@@ -955,7 +951,6 @@ import com.seezoon.application.student.dto.clientobject.StudentCO;
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
 import com.seezoon.infrastructure.dto.Page;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -976,7 +971,7 @@ public class StudentPageQryExe {
 
     private final StudentInfoMapper studentInfoMapper;
 
-    public Response<Page<StudentCO>> execute(@Valid @NotNull StudentPageQry qry) {
+    public Page<StudentCO> execute(@Valid @NotNull StudentPageQry qry) {
         StudentInfoPO.Condition condition = new StudentInfoPO.Condition();
         condition.setId(qry.getId());
         condition.setName(qry.getName());
@@ -1001,7 +996,7 @@ public class StudentPageQryExe {
             co.setUpdateTime(item.getUpdateTime());
             data.add(co);
         });
-        return Response.success(new Page<>(page.getTotal(), data));
+        return new Page<>(page.getTotal(), data);
     }
 } 
 ```
@@ -1015,7 +1010,6 @@ import com.seezoon.application.student.dto.StudentDetailQry;
 import com.seezoon.application.student.dto.clientobject.StudentDetailCO;
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
-import com.seezoon.infrastructure.dto.Response;
 import com.seezoon.infrastructure.error.ErrorCode;
 import com.seezoon.infrastructure.exception.ExceptionFactory;
 import jakarta.validation.Valid;
@@ -1036,7 +1030,7 @@ public class StudentDetailQryExe {
 
     private final StudentInfoMapper studentInfoMapper;
 
-    public Response<StudentDetailCO> execute(@Valid @NotNull StudentDetailQry qry) {
+    public StudentDetailCO execute(@Valid @NotNull StudentDetailQry qry) {
         StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(qry.getId());
         if (po == null) {
             log.error("student not exists id:{}", qry.getId());
@@ -1055,9 +1049,11 @@ public class StudentDetailQryExe {
         co.setCreateTime(po.getCreateTime());
         co.setUpdateTime(po.getUpdateTime());
 
-        return Response.success(co);
+        return co;
     }
 }
+
+
 ```
 
 `src/main/java/com/seezoon/application/student/executor/UpdateStudentCmdExe.java`
@@ -1068,7 +1064,6 @@ package com.seezoon.application.student.executor;
 import com.seezoon.application.student.dto.UpdateStudentCmd;
 import com.seezoon.domain.service.student.StudentService;
 import com.seezoon.domain.service.student.vo.StudentVO;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -1087,7 +1082,7 @@ public class UpdateStudentCmdExe {
 
     private final StudentService studentService;
 
-    public Response execute(@Valid @NotNull UpdateStudentCmd cmd) {
+    public void execute(@Valid @NotNull UpdateStudentCmd cmd) {
         StudentVO vo = new StudentVO();
         vo.setId(cmd.getId());
         vo.setNo(cmd.getNo());
@@ -1098,7 +1093,6 @@ public class UpdateStudentCmdExe {
         vo.setMobile(cmd.getMobile());
         vo.setStatus(cmd.getStatus());
         studentService.updateStudent(vo);
-        return Response.success();
     }
 } 
 ```
@@ -1123,10 +1117,8 @@ import com.seezoon.application.student.executor.StudentDetailQryExe;
 import com.seezoon.application.student.executor.StudentPageQryExe;
 import com.seezoon.application.student.executor.UpdateStudentCmdExe;
 import com.seezoon.infrastructure.dto.Page;
-import com.seezoon.infrastructure.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -1152,31 +1144,31 @@ public class StudentController {
 
     @PostMapping("/create")
     @Operation(summary = "创建学生信息")
-    public Response<StudentCO> createStudent(@RequestBody CreateStudentCmd cmd) {
-        return createStudentCmdExe.execute(cmd);
+    public void createStudent(@RequestBody CreateStudentCmd cmd) {
+        createStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新学生信息")
-    public Response<StudentCO> updateStudent(@RequestBody UpdateStudentCmd cmd) {
-        return updateStudentCmdExe.execute(cmd);
+    public void updateStudent(@RequestBody UpdateStudentCmd cmd) {
+        updateStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/delete")
     @Operation(summary = "删除学生信息")
-    public Response<Void> deleteStudent(@RequestBody DeleteStudentCmd cmd) {
-        return deleteStudentCmdExe.execute(cmd);
+    public void deleteStudent(@RequestBody DeleteStudentCmd cmd) {
+        deleteStudentCmdExe.execute(cmd);
     }
 
     @PostMapping("/page")
     @Operation(summary = "获取学生信息")
-    public Response<Page<StudentCO>> studentPage(@RequestBody StudentPageQry qry) {
+    public Page<StudentCO> studentPage(@RequestBody StudentPageQry qry) {
         return studentPageQryExe.execute(qry);
     }
 
     @PostMapping("/detail")
     @Operation(summary = "查询学生详细信息")
-    public Response<StudentDetailCO> getStudentDetail(@RequestBody StudentDetailQry qry) {
+    public StudentDetailCO getStudentDetail(@RequestBody StudentDetailQry qry) {
         return studentDetailQryExe.execute(qry);
     }
 } 

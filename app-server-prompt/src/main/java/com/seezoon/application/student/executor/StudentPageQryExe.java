@@ -7,7 +7,6 @@ import com.seezoon.application.student.dto.clientobject.StudentCO;
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
 import com.seezoon.infrastructure.dto.Page;
-import com.seezoon.infrastructure.dto.Response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class StudentPageQryExe {
 
     private final StudentInfoMapper studentInfoMapper;
 
-    public Response<Page<StudentCO>> execute(@Valid @NotNull StudentPageQry qry) {
+    public Page<StudentCO> execute(@Valid @NotNull StudentPageQry qry) {
         StudentInfoPO.Condition condition = new StudentInfoPO.Condition();
         condition.setId(qry.getId());
         condition.setName(qry.getName());
@@ -53,6 +52,6 @@ public class StudentPageQryExe {
             co.setUpdateTime(item.getUpdateTime());
             data.add(co);
         });
-        return Response.success(new Page<>(page.getTotal(), data));
+        return new Page<>(page.getTotal(), data);
     }
 } 

@@ -4,7 +4,6 @@ import com.seezoon.application.student.dto.StudentDetailQry;
 import com.seezoon.application.student.dto.clientobject.StudentDetailCO;
 import com.seezoon.domain.dao.mapper.StudentInfoMapper;
 import com.seezoon.domain.dao.po.StudentInfoPO;
-import com.seezoon.infrastructure.dto.Response;
 import com.seezoon.infrastructure.error.ErrorCode;
 import com.seezoon.infrastructure.exception.ExceptionFactory;
 import jakarta.validation.Valid;
@@ -25,13 +24,13 @@ public class StudentDetailQryExe {
 
     private final StudentInfoMapper studentInfoMapper;
 
-    public Response<StudentDetailCO> execute(@Valid @NotNull StudentDetailQry qry) {
+    public StudentDetailCO execute(@Valid @NotNull StudentDetailQry qry) {
         StudentInfoPO po = studentInfoMapper.selectByPrimaryKey(qry.getId());
         if (po == null) {
             log.error("student not exists id:{}", qry.getId());
             throw ExceptionFactory.bizException(ErrorCode.RECORD_NOT_EXISTS);
         }
-        
+
         StudentDetailCO co = new StudentDetailCO();
         co.setId(po.getId());
         co.setNo(po.getNo());
@@ -43,8 +42,8 @@ public class StudentDetailQryExe {
         co.setStatus(po.getStatus());
         co.setCreateTime(po.getCreateTime());
         co.setUpdateTime(po.getUpdateTime());
-        
-        return Response.success(co);
+
+        return co;
     }
 }
 
